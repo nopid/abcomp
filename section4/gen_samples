@@ -1,0 +1,21 @@
+#!/bin/sh
+mkdir -p samples
+cd samples
+### sample notebooks
+../gen_abcomp.py -v -S -u -t 8 fib "01/0" "Fibonacci sequence"
+../gen_abcomp.py -v -S -u -t 5 tri "01/02/0" "Tribonacci sequence"
+../gen_abcomp.py -v -S -u -t 5 pell "001/0" "Pell sequence"
+../gen_abcomp.py -v -S -u -t 5 blop "011/01" "Blop sequence"
+../gen_abcomp.py -v -S -u -t 3 nara "01/2/0" "Narayana sequence"
+### more serious scripts
+../gen_abcomp.py -u -z -t 5 pof "a->aab, b->cab, c->a" "Section 4 variation"
+../gen_abcomp.py -u -z -t 5 bpof "a->aab, b->ac, c->aac" "Bertrand of pof"
+../gen_abcomp.py -u -z -t 10 pell "001/0" "Pell sequence"
+../gen_abcomp.py -u -z -t 10 fib "01/0" "Fibonacci sequence"
+../gen_abcomp.py -u -z -t 8 tri "01/02/0" "Tribonacci sequence"
+../gen_abcomp.py -u -z -t 3 twi "01/20/0" "Twisted Tribonacci sequence"
+../gen_abcomp.py -u -z -t 10 nara "01/2/0" "Narayana sequence"
+../gen_abcomp.py -u -z -t 3 spiral "001/2/02" "Spiral sequence"
+../gen_abcomp.py -u -z -t 3 muller "0001011/001011" "Muller sequence"
+../gen_abcomp.py -u -z -t 10 blop "011/01" "Blop sequence"
+../gen_abcomp.py -u -z -t 5 bece "001/010" "Berthé and Cecchi ex4.15 from 1810.07453"

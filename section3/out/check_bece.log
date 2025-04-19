@@ -1,0 +1,152 @@
+Welcome to Walnut! Type "help;" to see all available commands.
+
+[Walnut]$ eval init "?msd_bece Ai,j1,j2,k Dequibece[i][j1][j2][k][0]=@-1 | Dequibece[i][j1][j2][k][0]=@0 | Dequibece[i][j1][j2][k][0]=@1":
+computed ~:1 states - 11ms
+Dequibece[i][j1][j2][k][0]=@-1:46 states - 2156ms
+ Dequibece[i][j1][j2][k][0]=@0:63 states - 2433ms
+  (Dequibece[i][j1][j2][k][0]=@-1|Dequibece[i][j1][j2][k][0]=@0):47 states - 44ms
+   Dequibece[i][j1][j2][k][0]=@1:46 states - 1948ms
+    ((Dequibece[i][j1][j2][k][0]=@-1|Dequibece[i][j1][j2][k][0]=@0)|Dequibece[i][j1][j2][k][0]=@1):1 states - 9ms
+     (A i , j1 , j2 , k ((Dequibece[i][j1][j2][k][0]=@-1|Dequibece[i][j1][j2][k][0]=@0)|Dequibece[i][j1][j2][k][0]=@1)):1 states - 3ms
+Total computation time: 6613ms.
+____
+TRUE
+eval initXX "?msd_bece Ai,j1,j2,k ($feq_bece(i,j1,k) <=> $feq_bece(i,j2,k)) <=> Dequibece[i][j1][j2][k][0]=@0":
+(feq_bece(i,j1,k))<=>feq_bece(i,j2,k))):63 states - 31ms
+ Dequibece[i][j1][j2][k][0]=@0:63 states - 2349ms
+  ((feq_bece(i,j1,k))<=>feq_bece(i,j2,k)))<=>Dequibece[i][j1][j2][k][0]=@0):1 states - 12ms
+   (A i , j1 , j2 , k ((feq_bece(i,j1,k))<=>feq_bece(i,j2,k)))<=>Dequibece[i][j1][j2][k][0]=@0)):1 states - 0ms
+Total computation time: 2394ms.
+____
+TRUE
+eval initTF "?msd_bece Ai,j1,j2,k ($feq_bece(i,j1,k) & ~$feq_bece(i,j2,k)) <=> Dequibece[i][j1][j2][k][0]=@1":
+~feq_bece(i,j2,k)):15 states - 2ms
+ (feq_bece(i,j1,k))&~feq_bece(i,j2,k))):46 states - 5ms
+  Dequibece[i][j1][j2][k][0]=@1:46 states - 1610ms
+   ((feq_bece(i,j1,k))&~feq_bece(i,j2,k)))<=>Dequibece[i][j1][j2][k][0]=@1):1 states - 14ms
+    (A i , j1 , j2 , k ((feq_bece(i,j1,k))&~feq_bece(i,j2,k)))<=>Dequibece[i][j1][j2][k][0]=@1)):1 states - 0ms
+Total computation time: 1632ms.
+____
+TRUE
+eval initFT "?msd_bece Ai,j1,j2,k (~$feq_bece(i,j1,k) & $feq_bece(i,j2,k)) <=> Dequibece[i][j1][j2][k][0]=@-1":
+~feq_bece(i,j1,k)):15 states - 1ms
+ (~feq_bece(i,j1,k))&feq_bece(i,j2,k))):46 states - 2ms
+  Dequibece[i][j1][j2][k][0]=@-1:46 states - 1536ms
+   ((~feq_bece(i,j1,k))&feq_bece(i,j2,k)))<=>Dequibece[i][j1][j2][k][0]=@-1):1 states - 12ms
+    (A i , j1 , j2 , k ((~feq_bece(i,j1,k))&feq_bece(i,j2,k)))<=>Dequibece[i][j1][j2][k][0]=@-1)):1 states - 0ms
+Total computation time: 1553ms.
+____
+TRUE
+def increase "?msd_bece (Dequibece[i][j1][j2][k][n]=@-3 & Dequibece[i][j1][j2][k][n+1]=@-2) | (Dequibece[i][j1][j2][k][n]=@-2 & Dequibece[i][j1][j2][k][n+1]=@-1) | (Dequibece[i][j1][j2][k][n]=@-1 & Dequibece[i][j1][j2][k][n+1]=@0) | (Dequibece[i][j1][j2][k][n]=@0 & Dequibece[i][j1][j2][k][n+1]=@1) | (Dequibece[i][j1][j2][k][n]=@1 & Dequibece[i][j1][j2][k][n+1]=@2) | (Dequibece[i][j1][j2][k][n]=@2 & Dequibece[i][j1][j2][k][n+1]=@3)":
+Dequibece[i][j1][j2][k][n]=@-3:195 states - 435ms
+computed ~:1 states - 1ms
+computed ~:2 states - 1ms
+ Dequibece[i][j1][j2][k][(n+1)]=@-2:1617 states - 1508ms
+  (Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-2):129 states - 143ms
+   Dequibece[i][j1][j2][k][n]=@-2:1381 states - 729ms
+    Dequibece[i][j1][j2][k][(n+1)]=@-1:6265 states - 7033ms
+     (Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-1):718 states - 1313ms
+      ((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-2)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-1)):695 states - 1061ms
+       Dequibece[i][j1][j2][k][n]=@-1:5812 states - 2552ms
+        Dequibece[i][j1][j2][k][(n+1)]=@0:8543 states - 12553ms
+         (Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@0):2268 states - 4761ms
+          (((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-2)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@0)):2083 states - 3847ms
+           Dequibece[i][j1][j2][k][n]=@0:8311 states - 4141ms
+            Dequibece[i][j1][j2][k][(n+1)]=@1:6265 states - 7004ms
+             (Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@1):2463 states - 4811ms
+              ((((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-2)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@0))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@1)):1542 states - 4446ms
+               Dequibece[i][j1][j2][k][n]=@1:5812 states - 2483ms
+                Dequibece[i][j1][j2][k][(n+1)]=@2:1617 states - 1361ms
+                 (Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@2):824 states - 1295ms
+                  (((((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-2)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@0))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@1))|(Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@2)):452 states - 2259ms
+                   Dequibece[i][j1][j2][k][n]=@2:1381 states - 721ms
+                    Dequibece[i][j1][j2][k][(n+1)]=@3:216 states - 507ms
+                     (Dequibece[i][j1][j2][k][n]=@2&Dequibece[i][j1][j2][k][(n+1)]=@3):135 states - 130ms
+                      ((((((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-2)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@0))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@1))|(Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@2))|(Dequibece[i][j1][j2][k][n]=@2&Dequibece[i][j1][j2][k][(n+1)]=@3)):179 states - 602ms
+Total computation time: 65702ms.
+def decrease "?msd_bece (Dequibece[i][j1][j2][k][n]=@-2 & Dequibece[i][j1][j2][k][n+1]=@-3) | (Dequibece[i][j1][j2][k][n]=@-1 & Dequibece[i][j1][j2][k][n+1]=@-2) | (Dequibece[i][j1][j2][k][n]=@0 & Dequibece[i][j1][j2][k][n+1]=@-1) | (Dequibece[i][j1][j2][k][n]=@1 & Dequibece[i][j1][j2][k][n+1]=@0) | (Dequibece[i][j1][j2][k][n]=@2 & Dequibece[i][j1][j2][k][n+1]=@1) | (Dequibece[i][j1][j2][k][n]=@3 & Dequibece[i][j1][j2][k][n+1]=@2)":
+Dequibece[i][j1][j2][k][n]=@-2:1381 states - 722ms
+ Dequibece[i][j1][j2][k][(n+1)]=@-3:216 states - 479ms
+  (Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-3):135 states - 130ms
+   Dequibece[i][j1][j2][k][n]=@-1:5812 states - 2499ms
+    Dequibece[i][j1][j2][k][(n+1)]=@-2:1617 states - 1353ms
+     (Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-2):824 states - 1287ms
+      ((Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-2)):801 states - 1273ms
+       Dequibece[i][j1][j2][k][n]=@0:8311 states - 3932ms
+        Dequibece[i][j1][j2][k][(n+1)]=@-1:6265 states - 7157ms
+         (Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@-1):2463 states - 4896ms
+          (((Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-2))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@-1)):2216 states - 4141ms
+           Dequibece[i][j1][j2][k][n]=@1:5812 states - 2472ms
+            Dequibece[i][j1][j2][k][(n+1)]=@0:8543 states - 12214ms
+             (Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@0):2268 states - 5182ms
+              ((((Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-2))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@0)):1376 states - 4108ms
+               Dequibece[i][j1][j2][k][n]=@2:1381 states - 723ms
+                Dequibece[i][j1][j2][k][(n+1)]=@1:6265 states - 6999ms
+                 (Dequibece[i][j1][j2][k][n]=@2&Dequibece[i][j1][j2][k][(n+1)]=@1):718 states - 1291ms
+                  (((((Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-2))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@0))|(Dequibece[i][j1][j2][k][n]=@2&Dequibece[i][j1][j2][k][(n+1)]=@1)):439 states - 1990ms
+                   Dequibece[i][j1][j2][k][n]=@3:195 states - 531ms
+                    Dequibece[i][j1][j2][k][(n+1)]=@2:1617 states - 1360ms
+                     (Dequibece[i][j1][j2][k][n]=@3&Dequibece[i][j1][j2][k][(n+1)]=@2):129 states - 143ms
+                      ((((((Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-2))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@0))|(Dequibece[i][j1][j2][k][n]=@2&Dequibece[i][j1][j2][k][(n+1)]=@1))|(Dequibece[i][j1][j2][k][n]=@3&Dequibece[i][j1][j2][k][(n+1)]=@2)):179 states - 578ms
+Total computation time: 65460ms.
+def constant "?msd_bece (Dequibece[i][j1][j2][k][n]=@-3 & Dequibece[i][j1][j2][k][n+1]=@-3) | (Dequibece[i][j1][j2][k][n]=@-2 & Dequibece[i][j1][j2][k][n+1]=@-2) | (Dequibece[i][j1][j2][k][n]=@-1 & Dequibece[i][j1][j2][k][n+1]=@-1) | (Dequibece[i][j1][j2][k][n]=@0 & Dequibece[i][j1][j2][k][n+1]=@0) | (Dequibece[i][j1][j2][k][n]=@1 & Dequibece[i][j1][j2][k][n+1]=@1) | (Dequibece[i][j1][j2][k][n]=@2 & Dequibece[i][j1][j2][k][n+1]=@2) | (Dequibece[i][j1][j2][k][n]=@3 & Dequibece[i][j1][j2][k][n+1]=@3)":
+Dequibece[i][j1][j2][k][n]=@-3:195 states - 493ms
+ Dequibece[i][j1][j2][k][(n+1)]=@-3:216 states - 543ms
+  (Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-3):195 states - 56ms
+   Dequibece[i][j1][j2][k][n]=@-2:1381 states - 784ms
+    Dequibece[i][j1][j2][k][(n+1)]=@-2:1617 states - 1417ms
+     (Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-2):1379 states - 644ms
+      ((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-2)):1355 states - 2381ms
+       Dequibece[i][j1][j2][k][n]=@-1:5812 states - 2659ms
+        Dequibece[i][j1][j2][k][(n+1)]=@-1:6265 states - 6995ms
+         (Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-1):5812 states - 4315ms
+          (((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-2))|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-1)):5527 states - 13287ms
+           Dequibece[i][j1][j2][k][n]=@0:8311 states - 3956ms
+            Dequibece[i][j1][j2][k][(n+1)]=@0:8543 states - 12164ms
+             (Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@0):8311 states - 7715ms
+              ((((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-2))|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@0)):6786 states - 21128ms
+               Dequibece[i][j1][j2][k][n]=@1:5812 states - 2494ms
+                Dequibece[i][j1][j2][k][(n+1)]=@1:6265 states - 7035ms
+                 (Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@1):5812 states - 4258ms
+                  (((((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-2))|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@0))|(Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@1)):2842 states - 12275ms
+                   Dequibece[i][j1][j2][k][n]=@2:1381 states - 717ms
+                    Dequibece[i][j1][j2][k][(n+1)]=@2:1617 states - 1386ms
+                     (Dequibece[i][j1][j2][k][n]=@2&Dequibece[i][j1][j2][k][(n+1)]=@2):1379 states - 633ms
+                      ((((((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-2))|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@0))|(Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@1))|(Dequibece[i][j1][j2][k][n]=@2&Dequibece[i][j1][j2][k][(n+1)]=@2)):678 states - 3996ms
+                       Dequibece[i][j1][j2][k][n]=@3:195 states - 458ms
+                        Dequibece[i][j1][j2][k][(n+1)]=@3:216 states - 541ms
+                         (Dequibece[i][j1][j2][k][n]=@3&Dequibece[i][j1][j2][k][(n+1)]=@3):195 states - 56ms
+                          (((((((Dequibece[i][j1][j2][k][n]=@-3&Dequibece[i][j1][j2][k][(n+1)]=@-3)|(Dequibece[i][j1][j2][k][n]=@-2&Dequibece[i][j1][j2][k][(n+1)]=@-2))|(Dequibece[i][j1][j2][k][n]=@-1&Dequibece[i][j1][j2][k][(n+1)]=@-1))|(Dequibece[i][j1][j2][k][n]=@0&Dequibece[i][j1][j2][k][(n+1)]=@0))|(Dequibece[i][j1][j2][k][n]=@1&Dequibece[i][j1][j2][k][(n+1)]=@1))|(Dequibece[i][j1][j2][k][n]=@2&Dequibece[i][j1][j2][k][(n+1)]=@2))|(Dequibece[i][j1][j2][k][n]=@3&Dequibece[i][j1][j2][k][(n+1)]=@3)):277 states - 1037ms
+Total computation time: 113429ms.
+eval nxt "?msd_bece Ai,j1,j2,k,n $constant(i,j1,j2,k,n) | $increase(i,j1,j2,k,n) | $decrease(i,j1,j2,k,n)":
+(constant(i,j1,j2,k,n))|increase(i,j1,j2,k,n))):180 states - 498ms
+ ((constant(i,j1,j2,k,n))|increase(i,j1,j2,k,n)))|decrease(i,j1,j2,k,n))):1 states - 201ms
+  (A i , j1 , j2 , k , n ((constant(i,j1,j2,k,n))|increase(i,j1,j2,k,n)))|decrease(i,j1,j2,k,n)))):1 states - 1ms
+Total computation time: 798ms.
+____
+TRUE
+eval nxtXX "?msd_bece Ai,j1,j2,k,n ($feq_bece(i,j1+n+1,k) <=> $feq_bece(i,j2+n+1,k))  <=> $constant(i,j1,j2,k,n)":
+(feq_bece(i,((j1+n)+1),k))<=>feq_bece(i,((j2+n)+1),k))):277 states - 383ms
+ ((feq_bece(i,((j1+n)+1),k))<=>feq_bece(i,((j2+n)+1),k)))<=>constant(i,j1,j2,k,n))):1 states - 301ms
+  (A i , j1 , j2 , k , n ((feq_bece(i,((j1+n)+1),k))<=>feq_bece(i,((j2+n)+1),k)))<=>constant(i,j1,j2,k,n)))):1 states - 1ms
+Total computation time: 753ms.
+____
+TRUE
+eval nxtTF "?msd_bece Ai,j1,j2,k,n ($feq_bece(i,j1+n+1,k) & ~$feq_bece(i,j2+n+1,k)) <=> $increase(i,j1,j2,k,n)":
+~feq_bece(i,((j2+n)+1),k)):43 states - 10ms
+ (feq_bece(i,((j1+n)+1),k))&~feq_bece(i,((j2+n)+1),k))):179 states - 38ms
+  ((feq_bece(i,((j1+n)+1),k))&~feq_bece(i,((j2+n)+1),k)))<=>increase(i,j1,j2,k,n))):1 states - 205ms
+   (A i , j1 , j2 , k , n ((feq_bece(i,((j1+n)+1),k))&~feq_bece(i,((j2+n)+1),k)))<=>increase(i,j1,j2,k,n)))):1 states - 0ms
+Total computation time: 285ms.
+____
+TRUE
+eval nxtFT "?msd_bece Ai,j1,j2,k,n (~$feq_bece(i,j1+n+1,k) & $feq_bece(i,j2+n+1,k)) <=> $decrease(i,j1,j2,k,n)":
+~feq_bece(i,((j1+n)+1),k)):43 states - 10ms
+ (~feq_bece(i,((j1+n)+1),k))&feq_bece(i,((j2+n)+1),k))):179 states - 39ms
+  ((~feq_bece(i,((j1+n)+1),k))&feq_bece(i,((j2+n)+1),k)))<=>decrease(i,j1,j2,k,n))):1 states - 203ms
+   (A i , j1 , j2 , k , n ((~feq_bece(i,((j1+n)+1),k))&feq_bece(i,((j2+n)+1),k)))<=>decrease(i,j1,j2,k,n)))):1 states - 1ms
+Total computation time: 284ms.
+____
+TRUE
+
+[Walnut]$ 

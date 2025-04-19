@@ -1,0 +1,44 @@
+* Chargement de occ_fib
+labelmap size: 64
+>>> 0.013s
+
+Comptage de s
+396 states, 4260 transitions
+proj_map size: 32
+>>> 0.002s
+
+Réduction de s1
+[starting left_reduce with 96 threads]
+.........18/100/16.........54/200/4733.........264/300/883.314
+[starting left_reduce with 96 threads]
+.........17/100/5.........41/200/8.......274
+274 states, 5086 transitions
+>>> 3.285s
+
+Remap de s1 en s2
+274 states, 5086 transitions
+>>> 0.004s
+
+Somme s=s1+s2
+548 states, 10172 transitions
+>>> 0.007s
+
+Réduction de s
+[starting left_reduce with 96 threads]
+.........18/100/2550.........46/200/4989.........76/300/6016.........141/400/5822.....460
+[starting left_reduce with 96 threads]
+.........14/100/6.........35/200/5.........56/300/7.........89/400/9.412
+412 states, 8026 transitions
+>>> 8.667s
+
+Exploration t
+19133 states, 258878 transitions
+>>> 1.353s
+
+Complétion de t
+19134 states, 612288 transitions
+>>> 0.219s
+
+Écriture de la sortie
+>>> 2.057s
+

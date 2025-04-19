@@ -1,0 +1,10 @@
+def unb1fib "?msd_fib Ai Ej1,j2,n Dequifib[i][j1][j2][k][n] > @1":
+eval allfrom4 "?msd_fib Ak $unb1fib(k) <=> k>=4":
+def unb1pell "?msd_pell Ai Ej1,j2,n Dequipell[i][j1][j2][k][n] > @1":
+eval allfrom6 "?msd_pell Ak $unb1pell(k) <=> k>=6":
+def unb2pell "?msd_pell Ai Ej2,j2,n Dequipell[i][j2][j2][k][n] > @2":
+eval none "?msd_pell Ak ~$unb2pell(k)":
+def to2tri "?msd_tri Dequitri[i][j1][j2][k][n] > @1":
+def tri2tri "?msd_tri Ej1,j2 $to2tri(i,j1,j2,k,n)":
+def unb1tri "?msd_tri Ai En $tri2tri(i,k,n)":
+eval allfrom1 "?msd_tri Ak $unb1tri(k) <=> k>=1":

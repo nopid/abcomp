@@ -1,0 +1,10 @@
+def abfirstfib "?msd_fib k>0 & ~Ej j<i & $abeqfib(i,j,k,n)":
+def abfirstpell "?msd_pell k>0 & ~Ej j<i & $abeqpell(i,j,k,n)":
+def abfirsttri "?msd_tri k>0 & ~Ej j<i & $abeqtri(i,j,k,n)":
+def abfirstbece "?msd_bece k>0 & ~Ej j<i & $abeqbece(i,j,k,n)":
+def abfirstsfib "?msd_fib $abfirstfib(i,k+1,n)":
+def abfirstspell "?msd_pell $abfirstpell(i,k+1,n)":
+def abfirststri "?msd_tri $abfirsttri(i,k+1,n)":
+def abfirstsbece "?msd_bece $abfirstbece(i,k+1,n)":
+def abfirstztri "?msd_tri $abfirsttri(i,k,n+1)":
+def abfirstzztri "?msd_tri $abfirsttri(i,k+1,n+2)":

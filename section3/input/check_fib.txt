@@ -1,0 +1,15 @@
+eval init "?msd_fib Ai,j1,j2,k Dequifib[i][j1][j2][k][0]=@-1 | Dequifib[i][j1][j2][k][0]=@0 | Dequifib[i][j1][j2][k][0]=@1":
+
+eval initXX "?msd_fib Ai,j1,j2,k ($feq_fib(i,j1,k) <=> $feq_fib(i,j2,k)) <=> Dequifib[i][j1][j2][k][0]=@0":
+eval initTF "?msd_fib Ai,j1,j2,k ($feq_fib(i,j1,k) & ~$feq_fib(i,j2,k)) <=> Dequifib[i][j1][j2][k][0]=@1":
+eval initFT "?msd_fib Ai,j1,j2,k (~$feq_fib(i,j1,k) & $feq_fib(i,j2,k)) <=> Dequifib[i][j1][j2][k][0]=@-1":
+
+def increase "?msd_fib (Dequifib[i][j1][j2][k][n]=@-2 & Dequifib[i][j1][j2][k][n+1]=@-1) | (Dequifib[i][j1][j2][k][n]=@-1 & Dequifib[i][j1][j2][k][n+1]=@0) | (Dequifib[i][j1][j2][k][n]=@0 & Dequifib[i][j1][j2][k][n+1]=@1) | (Dequifib[i][j1][j2][k][n]=@1 & Dequifib[i][j1][j2][k][n+1]=@2)":
+def decrease "?msd_fib (Dequifib[i][j1][j2][k][n]=@-1 & Dequifib[i][j1][j2][k][n+1]=@-2) | (Dequifib[i][j1][j2][k][n]=@0 & Dequifib[i][j1][j2][k][n+1]=@-1) | (Dequifib[i][j1][j2][k][n]=@1 & Dequifib[i][j1][j2][k][n+1]=@0) | (Dequifib[i][j1][j2][k][n]=@2 & Dequifib[i][j1][j2][k][n+1]=@1)":
+def constant "?msd_fib (Dequifib[i][j1][j2][k][n]=@-2 & Dequifib[i][j1][j2][k][n+1]=@-2) | (Dequifib[i][j1][j2][k][n]=@-1 & Dequifib[i][j1][j2][k][n+1]=@-1) | (Dequifib[i][j1][j2][k][n]=@0 & Dequifib[i][j1][j2][k][n+1]=@0) | (Dequifib[i][j1][j2][k][n]=@1 & Dequifib[i][j1][j2][k][n+1]=@1) | (Dequifib[i][j1][j2][k][n]=@2 & Dequifib[i][j1][j2][k][n+1]=@2)":
+
+eval nxt "?msd_fib Ai,j1,j2,k,n $constant(i,j1,j2,k,n) | $increase(i,j1,j2,k,n) | $decrease(i,j1,j2,k,n)":
+eval nxtXX "?msd_fib Ai,j1,j2,k,n ($feq_fib(i,j1+n+1,k) <=> $feq_fib(i,j2+n+1,k))  <=> $constant(i,j1,j2,k,n)":
+eval nxtTF "?msd_fib Ai,j1,j2,k,n ($feq_fib(i,j1+n+1,k) & ~$feq_fib(i,j2+n+1,k)) <=> $increase(i,j1,j2,k,n)":
+eval nxtFT "?msd_fib Ai,j1,j2,k,n (~$feq_fib(i,j1+n+1,k) & $feq_fib(i,j2+n+1,k)) <=> $decrease(i,j1,j2,k,n)":
+

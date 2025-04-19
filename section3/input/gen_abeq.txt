@@ -1,0 +1,16 @@
+def samefib "?msd_fib Dequifib[i][j1][j2][k][n] = @0":
+def abeqexfib "?msd_fib Ai $samefib(i,j1,j2,k,n)":
+def abeqfib "?msd_fib (n<k & $feq_fib(i,j,n)) | (n>=k & $feq_fib(i,j,k-1) & $abeqexfib(i,j,k,n-k))":
+
+def samepell "?msd_pell Dequipell[i][j1][j2][k][n] = @0":
+def abeqexpell "?msd_pell Ai $samepell(i,j1,j2,k,n)":
+def abeqpell "?msd_pell (n<k & $feq_pell(i,j,n)) | (n>=k & $feq_pell(i,j,k-1) & $abeqexpell(i,j,k,n-k))":
+
+def sametri "?msd_tri Dequitri[i][j1][j2][k][n] = @0":
+def abeqextri "?msd_tri Ai $sametri(i,j1,j2,k,n)":
+def abeqtri "?msd_tri (n<k & $feq_tri(i,j,n)) | (n>=k & $feq_tri(i,j,k-1) & $abeqextri(i,j,k,n-k))":
+
+def samebece "?msd_bece Dequibece[i][j1][j2][k][n] = @0":
+def abeqexbece "?msd_bece Ai $samebece(i,j1,j2,k,n)":
+def abeqbece "?msd_bece (n<k & $feq_bece(i,j,n)) | (n>=k & $feq_bece(i,j,k-1) & $abeqexbece(i,j,k,n-k))":
+

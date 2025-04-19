@@ -1,0 +1,17 @@
+Welcome to Walnut! Type "help;" to see all available commands.
+
+[Walnut]$ def abfirstbece "?msd_bece k>0 & ~Ej j<i & $abeqbece(i,j,k,n)":
+computed ~:1 states - 13ms
+k>0:2 states - 28ms
+ j<i:2 states - 0ms
+  (j<i&abeqbece(i,j,k,n))):283 states - 68ms
+   (E j (j<i&abeqbece(i,j,k,n)))):175 states - 104ms
+    ~(E j (j<i&abeqbece(i,j,k,n)))):175 states - 32ms
+     (k>0&~(E j (j<i&abeqbece(i,j,k,n))))):161 states - 6ms
+Total computation time: 301ms.
+def abfirstsbece "?msd_bece $abfirstbece(i,k+1,n)":
+computed ~:1 states - 0ms
+computed ~:2 states - 1ms
+Total computation time: 22ms.
+
+[Walnut]$ 

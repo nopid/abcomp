@@ -1,0 +1,491 @@
+---
+title: k-Abelian Complexity of Blop sequence from 1 to 5
+date: '2025-03-23'
+format:
+  html:
+    code-fold: false
+    embed-resources: true
+    toc: true
+    toc-location: left
+    number-sections: true
+    syntax-definitions: 
+        - walnut.xml
+  ipynb: default 
+execute:
+  cache: true
+  keep-ipynb: true
+  allow_errors: true
+jupyter: walnut
+---
+
+## Initial Numeration System Setup
+
+First we define the subsitution, its numeration system and its fixpoint sequence.
+
+```{walnut}
+%%python
+from licofage.kit import *
+import os
+setparams(True, True, os.environ["WALNUT_HOME"])
+
+s = subst('011/01')
+ns = address(s, "blop")
+ns.gen_ns()
+ns.gen_word_automaton()
+```
+
+Then we setup a factor comparison predicate in Walnut and a first factor occurence predicate.
+
+```{walnut}
+def cut "?msd_blop i<=u & j<=v & u+j=v+i & u<n+i & v<n+j":
+def feq_blop "?msd_blop ~(Eu,v $cut(i,j,n,u,v) & Blop[u]!=Blop[v])":
+eval comp_blop n "?msd_blop Aj $feq_blop(i,j,n) => i<=j":
+```
+
+
+From there we can define the boundary condition `bordercond`, as explained in Fici-Puzynina-2023 section 8.1.
+
+```{walnut}
+def bordercond "?msd_blop (k<=n => $feq_blop(i,j,k-1)) & (n<k => $feq_blop(i,j,n))":
+```
+
+## 1-abelian complexity
+
+Define the 1-block map of blop and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s1 = s
+ns1 = ns
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Blop.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns1.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s1, ns1.ns, **w)
+    (parikh - ns1).gen_dfa(f"blopb1p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 1-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_blop Ex,y $blopb1p0(i,x) & $blopb1p0(i+n,y) & z+x=y":
+def fac1 "?msd_blop Ex,y $blopb1p1(i,x) & $blopb1p1(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_blop Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_blop Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_blop Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_blop Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_blop1 "?msd_blop (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z))":
+```
+
+```{walnut}
+eval comp_blop1 n "?msd_blop Aj $abeq_blop1(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_blop1 msd_blop Comp_blop1
+```
+
+## 2-abelian complexity
+
+Define the 2-block map of blop and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s2 = block(s, 2)
+ns2 = address(s2, "blopb2")
+ns2.gen_ns()
+(ns-ns2).gen_dfa("conv_blop_blopb2")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond2 "?msd_blopb2 (?msd_blop Eii,jj,kk,nn 
+($conv_blop_blopb2(?msd_blop ii, ?msd_blopb2 i) & 
+$conv_blop_blopb2(?msd_blop jj, ?msd_blopb2 j) & 
+$conv_blop_blopb2(?msd_blop kk, ?msd_blopb2 k) & 
+$conv_blop_blopb2(?msd_blop nn, ?msd_blopb2 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Blopb2.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns2.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s2, ns2.ns, **w)
+    (parikh - ns2).gen_dfa(f"blopb2p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 2-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_blopb2 Ex,y $blopb2p0(i,x) & $blopb2p0(i+n,y) & z+x=y":
+def fac1 "?msd_blopb2 Ex,y $blopb2p1(i,x) & $blopb2p1(i+n,y) & z+x=y":
+def fac2 "?msd_blopb2 Ex,y $blopb2p2(i,x) & $blopb2p2(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_blopb2 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_blopb2 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_blopb2 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_blopb2 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_blopb2 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_blopb2 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_blopb2 "?msd_blopb2 $bordercond2(i,j,2,n+1) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z))":
+def abeq_blop2 "?msd_blop (n<1 & $feq_blop(i,j,n)) | (n>=1 & (?msd_blopb2 Eii,jj,nn ($conv_blop_blopb2(?msd_blop i, ?msd_blopb2 ii) & $conv_blop_blopb2(?msd_blop j, ?msd_blopb2 jj) & $conv_blop_blopb2(?msd_blop n, ?msd_blopb2 nn) & $abeq_blopb2(ii,jj,nn-1))))":
+```
+
+```{walnut}
+eval comp_blop2 n "?msd_blop Aj $abeq_blop2(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_blop2 msd_blop Comp_blop2
+```
+
+## 3-abelian complexity
+
+Define the 3-block map of blop and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s3 = block(s, 3)
+ns3 = address(s3, "blopb3")
+ns3.gen_ns()
+(ns-ns3).gen_dfa("conv_blop_blopb3")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond3 "?msd_blopb3 (?msd_blop Eii,jj,kk,nn 
+($conv_blop_blopb3(?msd_blop ii, ?msd_blopb3 i) & 
+$conv_blop_blopb3(?msd_blop jj, ?msd_blopb3 j) & 
+$conv_blop_blopb3(?msd_blop kk, ?msd_blopb3 k) & 
+$conv_blop_blopb3(?msd_blop nn, ?msd_blopb3 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Blopb3.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns3.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s3, ns3.ns, **w)
+    (parikh - ns3).gen_dfa(f"blopb3p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 3-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_blopb3 Ex,y $blopb3p0(i,x) & $blopb3p0(i+n,y) & z+x=y":
+def fac1 "?msd_blopb3 Ex,y $blopb3p1(i,x) & $blopb3p1(i+n,y) & z+x=y":
+def fac2 "?msd_blopb3 Ex,y $blopb3p2(i,x) & $blopb3p2(i+n,y) & z+x=y":
+def fac3 "?msd_blopb3 Ex,y $blopb3p3(i,x) & $blopb3p3(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_blopb3 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_blopb3 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_blopb3 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_blopb3 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_blopb3 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_blopb3 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_blopb3 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_blopb3 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_blopb3 "?msd_blopb3 $bordercond3(i,j,3,n+2) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z))":
+def abeq_blop3 "?msd_blop (n<2 & $feq_blop(i,j,n)) | (n>=2 & (?msd_blopb3 Eii,jj,nn ($conv_blop_blopb3(?msd_blop i, ?msd_blopb3 ii) & $conv_blop_blopb3(?msd_blop j, ?msd_blopb3 jj) & $conv_blop_blopb3(?msd_blop n, ?msd_blopb3 nn) & $abeq_blopb3(ii,jj,nn-2))))":
+```
+
+```{walnut}
+eval comp_blop3 n "?msd_blop Aj $abeq_blop3(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_blop3 msd_blop Comp_blop3
+```
+
+## 4-abelian complexity
+
+Define the 4-block map of blop and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s4 = block(s, 4)
+ns4 = address(s4, "blopb4")
+ns4.gen_ns()
+(ns-ns4).gen_dfa("conv_blop_blopb4")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond4 "?msd_blopb4 (?msd_blop Eii,jj,kk,nn 
+($conv_blop_blopb4(?msd_blop ii, ?msd_blopb4 i) & 
+$conv_blop_blopb4(?msd_blop jj, ?msd_blopb4 j) & 
+$conv_blop_blopb4(?msd_blop kk, ?msd_blopb4 k) & 
+$conv_blop_blopb4(?msd_blop nn, ?msd_blopb4 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Blopb4.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns4.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s4, ns4.ns, **w)
+    (parikh - ns4).gen_dfa(f"blopb4p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 4-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_blopb4 Ex,y $blopb4p0(i,x) & $blopb4p0(i+n,y) & z+x=y":
+def fac1 "?msd_blopb4 Ex,y $blopb4p1(i,x) & $blopb4p1(i+n,y) & z+x=y":
+def fac2 "?msd_blopb4 Ex,y $blopb4p2(i,x) & $blopb4p2(i+n,y) & z+x=y":
+def fac3 "?msd_blopb4 Ex,y $blopb4p3(i,x) & $blopb4p3(i+n,y) & z+x=y":
+def fac4 "?msd_blopb4 Ex,y $blopb4p4(i,x) & $blopb4p4(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_blopb4 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_blopb4 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_blopb4 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_blopb4 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_blopb4 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_blopb4 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_blopb4 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_blopb4 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_blopb4 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_blopb4 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_blopb4 "?msd_blopb4 $bordercond4(i,j,4,n+3) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z))":
+def abeq_blop4 "?msd_blop (n<3 & $feq_blop(i,j,n)) | (n>=3 & (?msd_blopb4 Eii,jj,nn ($conv_blop_blopb4(?msd_blop i, ?msd_blopb4 ii) & $conv_blop_blopb4(?msd_blop j, ?msd_blopb4 jj) & $conv_blop_blopb4(?msd_blop n, ?msd_blopb4 nn) & $abeq_blopb4(ii,jj,nn-3))))":
+```
+
+```{walnut}
+eval comp_blop4 n "?msd_blop Aj $abeq_blop4(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_blop4 msd_blop Comp_blop4
+```
+
+## 5-abelian complexity
+
+Define the 5-block map of blop and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s5 = block(s, 5)
+ns5 = address(s5, "blopb5")
+ns5.gen_ns()
+(ns-ns5).gen_dfa("conv_blop_blopb5")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond5 "?msd_blopb5 (?msd_blop Eii,jj,kk,nn 
+($conv_blop_blopb5(?msd_blop ii, ?msd_blopb5 i) & 
+$conv_blop_blopb5(?msd_blop jj, ?msd_blopb5 j) & 
+$conv_blop_blopb5(?msd_blop kk, ?msd_blopb5 k) & 
+$conv_blop_blopb5(?msd_blop nn, ?msd_blopb5 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Blopb5.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns5.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s5, ns5.ns, **w)
+    (parikh - ns5).gen_dfa(f"blopb5p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 5-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_blopb5 Ex,y $blopb5p0(i,x) & $blopb5p0(i+n,y) & z+x=y":
+def fac1 "?msd_blopb5 Ex,y $blopb5p1(i,x) & $blopb5p1(i+n,y) & z+x=y":
+def fac2 "?msd_blopb5 Ex,y $blopb5p2(i,x) & $blopb5p2(i+n,y) & z+x=y":
+def fac3 "?msd_blopb5 Ex,y $blopb5p3(i,x) & $blopb5p3(i+n,y) & z+x=y":
+def fac4 "?msd_blopb5 Ex,y $blopb5p4(i,x) & $blopb5p4(i+n,y) & z+x=y":
+def fac5 "?msd_blopb5 Ex,y $blopb5p5(i,x) & $blopb5p5(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_blopb5 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_blopb5 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_blopb5 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_blopb5 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_blopb5 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+def min5 "?msd_blopb5 Ei $fac5(i,n,x) & Aj,y $fac5(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_blopb5 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_blopb5 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_blopb5 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_blopb5 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_blopb5 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+def diff5 "?msd_blopb5 Ex,y $min5(n,x) & $fac5(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_blopb5 "?msd_blopb5 $bordercond5(i,j,5,n+4) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z)) & (Ez $diff5(i,n,z) &  $diff5(j,n,z))":
+def abeq_blop5 "?msd_blop (n<4 & $feq_blop(i,j,n)) | (n>=4 & (?msd_blopb5 Eii,jj,nn ($conv_blop_blopb5(?msd_blop i, ?msd_blopb5 ii) & $conv_blop_blopb5(?msd_blop j, ?msd_blopb5 jj) & $conv_blop_blopb5(?msd_blop n, ?msd_blopb5 nn) & $abeq_blopb5(ii,jj,nn-4))))":
+```
+
+```{walnut}
+eval comp_blop5 n "?msd_blop Aj $abeq_blop5(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_blop5 msd_blop Comp_blop5
+```
+## Check it out!
+
+
+```{walnut}
+%%python
+from itertools import product
+from ratser.walimp import from_walnut
+
+def valid(a, h, u):
+    cur=a
+    for c in u:
+        v = h[cur]
+        if c >= len(v):
+            return False
+        cur = v[c]
+    return True
+
+def enumrepr(a, h, k):
+    alpha=list(range(max(map(len,h.values()))))
+    for u in product(alpha, repeat=k):
+        if valid(a, h, u):
+            yield ''.join(map(str,u))
+
+l = []
+lbl = []
+for k in range(1,6):
+    lbl.append(str(k))
+    with open(P(os.environ["WALNUT_HOME"]) / P(f"Result/comp_blop{k}.mpl")) as f:
+            ser = from_walnut(f)
+            l.append(ser)
+
+(a,h)=s.subst()
+print(f"{'n':>4}", *[f"{x+'-ab(blop)':>15}" for x in lbl])
+print('-'*(4+16*len(lbl)))
+for (i, u) in enumerate(enumrepr(a, h, 8)):
+    print(f"{i:4}", *[ f"{int(s.value(u)):15}" for s in l ])
+```
+
+## Let's wrap it up!
+
+```{walnut}
+%%shell
+cd $WALNUT_HOME
+cat << EOF | tr '\n' '\0' | tar cvzf /tmp/abelian.tar.gz --null -T -
+Custom Bases/msd_blop.txt
+Custom Bases/msd_blop_addition.txt
+Word Automata Library/Blop.txt
+Automata Library/feq_blop.txt
+Result/comp_blop.mpl
+Word Automata Library/Comp_blop1.txt
+Result/comp_blop1.mpl
+Automata Library/abeq_blop1.txt
+Word Automata Library/Comp_blop2.txt
+Result/comp_blop2.mpl
+Automata Library/abeq_blop2.txt
+Word Automata Library/Comp_blop3.txt
+Result/comp_blop3.mpl
+Automata Library/abeq_blop3.txt
+Word Automata Library/Comp_blop4.txt
+Result/comp_blop4.mpl
+Automata Library/abeq_blop4.txt
+Word Automata Library/Comp_blop5.txt
+Result/comp_blop5.mpl
+Automata Library/abeq_blop5.txt
+EOF
+```
+
+
+ {{< downloadthis /tmp/abelian.tar.gz dname="abelian.tar" >}}
+

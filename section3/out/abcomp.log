@@ -1,0 +1,43 @@
+Welcome to Walnut! Type "help;" to see all available commands.
+
+[Walnut]$ def abfirstfib "?msd_fib k>0 & ~Ej j<i & $abeqfib(i,j,k,n)":
+computed ~:1 states - 10ms
+k>0:3 states - 22ms
+ j<i:6 states - 0ms
+  (j<i&abeqfib(i,j,k,n))):187 states - 9ms
+   (E j (j<i&abeqfib(i,j,k,n)))):105 states - 16ms
+    ~(E j (j<i&abeqfib(i,j,k,n)))):116 states - 11ms
+     (k>0&~(E j (j<i&abeqfib(i,j,k,n))))):104 states - 2ms
+Total computation time: 72ms.
+def abfirstpell "?msd_pell k>0 & ~Ej j<i & $abeqpell(i,j,k,n)":
+computed ~:1 states - 1ms
+k>0:3 states - 1ms
+ j<i:6 states - 0ms
+  (j<i&abeqpell(i,j,k,n))):179 states - 20ms
+   (E j (j<i&abeqpell(i,j,k,n)))):105 states - 37ms
+    ~(E j (j<i&abeqpell(i,j,k,n)))):115 states - 16ms
+     (k>0&~(E j (j<i&abeqpell(i,j,k,n))))):107 states - 2ms
+Total computation time: 89ms.
+def abfirsttri "?msd_tri k>0 & ~Ej j<i & $abeqtri(i,j,k,n)":
+computed ~:1 states - 0ms
+k>0:4 states - 0ms
+ j<i:12 states - 0ms
+  (j<i&abeqtri(i,j,k,n))):5017 states - 80ms
+   (E j (j<i&abeqtri(i,j,k,n)))):1817 states - 258ms
+    ~(E j (j<i&abeqtri(i,j,k,n)))):1927 states - 76ms
+     (k>0&~(E j (j<i&abeqtri(i,j,k,n))))):1859 states - 16ms
+Total computation time: 487ms.
+def abfirstsfib "?msd_fib $abfirstfib(i,k+1,n)":
+computed ~:1 states - 0ms
+computed ~:2 states - 1ms
+Total computation time: 6ms.
+def abfirstspell "?msd_pell $abfirstpell(i,k+1,n)":
+computed ~:1 states - 1ms
+computed ~:2 states - 2ms
+Total computation time: 14ms.
+def abfirststri "?msd_tri $abfirsttri(i,k+1,n)":
+computed ~:1 states - 0ms
+computed ~:2 states - 1ms
+Total computation time: 47ms.
+
+[Walnut]$ 

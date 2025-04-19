@@ -1,0 +1,19 @@
+* Chargement de abfirsttri.txt
+labelmap size: 8
+>>> 0.018s
+
+Comptage de s
+1859 states, 9924 transitions
+proj_map size: 4
+>>> 0.005s
+
+Réduction de s1
+[starting left_reduce with 96 threads]
+.........84/100/145.........133/200/224.........292/300/113....350
+[starting left_reduce with 96 threads]
+.........63/100/111.........193/200/44......264
+264 states, 23616 transitions
+>>> 17.446s
+
+min: -46
+max: 62

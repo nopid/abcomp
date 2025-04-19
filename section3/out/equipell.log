@@ -1,0 +1,44 @@
+* Chargement de occ_pell
+labelmap size: 621
+>>> 0.045s
+
+Comptage de s
+392 states, 22372 transitions
+proj_map size: 243
+>>> 0.016s
+
+Réduction de s1
+[starting left_reduce with 96 threads]
+.........0/100/3911.........5/200/6113.........87/300/5749.312
+[starting left_reduce with 96 threads]
+.........0/100/5.........10/200/5.......272
+272 states, 24001 transitions
+>>> 19.923s
+
+Remap de s1 en s2
+272 states, 24001 transitions
+>>> 0.021s
+
+Somme s=s1+s2
+544 states, 48002 transitions
+>>> 0.031s
+
+Réduction de s
+[starting left_reduce with 96 threads]
+.........1/100/5996.........4/200/5737.........6/300/6116.........50/400/5914.....456
+[starting left_reduce with 96 threads]
+.........0/100/6.........2/200/10.........39/300/4.........74/400/10408
+408 states, 47426 transitions
+>>> 42.979s
+
+Exploration t
+28712 states, 2683679 transitions
+>>> 14.138s
+
+Complétion de t
+28713 states, 6977259 transitions
+>>> 2.633s
+
+Écriture de la sortie
+>>> 34.432s
+

@@ -1,0 +1,60 @@
+Welcome to Walnut! Type "help;" to see all available commands.
+
+[Walnut]$ def unb1fib "?msd_fib Ai Ej1,j2,n Dequifib[i][j1][j2][k][n] > @1":
+Dequifib[i][j1][j2][k][n]>@1:2221 states - 323ms
+ (E j1 , j2 , n Dequifib[i][j1][j2][k][n]>@1):12 states - 53ms
+  (A i (E j1 , j2 , n Dequifib[i][j1][j2][k][n]>@1)):6 states - 1ms
+Total computation time: 385ms.
+eval allfrom4 "?msd_fib Ak $unb1fib(k) <=> k>=4":
+computed ~:1 states - 7ms
+computed ~:2 states - 1ms
+k>=4:6 states - 11ms
+ (unb1fib(k))<=>k>=4):2 states - 0ms
+  (A k (unb1fib(k))<=>k>=4)):1 states - 0ms
+Total computation time: 12ms.
+____
+TRUE
+def unb1pell "?msd_pell Ai Ej1,j2,n Dequipell[i][j1][j2][k][n] > @1":
+Dequipell[i][j1][j2][k][n]>@1:4123 states - 2247ms
+ (E j1 , j2 , n Dequipell[i][j1][j2][k][n]>@1):11 states - 208ms
+  (A i (E j1 , j2 , n Dequipell[i][j1][j2][k][n]>@1)):6 states - 4ms
+Total computation time: 2461ms.
+eval allfrom6 "?msd_pell Ak $unb1pell(k) <=> k>=6":
+computed ~:1 states - 1ms
+computed ~:2 states - 0ms
+k>=6:6 states - 3ms
+ (unb1pell(k))<=>k>=6):2 states - 1ms
+  (A k (unb1pell(k))<=>k>=6)):1 states - 0ms
+Total computation time: 4ms.
+____
+TRUE
+def unb2pell "?msd_pell Ai Ej2,j2,n Dequipell[i][j2][j2][k][n] > @2":
+Dequipell[i][j2][j2][k][n]>@2:1 states - 1157ms
+ (E j2 , j2 , n Dequipell[i][j2][j2][k][n]>@2):1 states - 0ms
+  (A i (E j2 , j2 , n Dequipell[i][j2][j2][k][n]>@2)):1 states - 1ms
+Total computation time: 1160ms.
+eval none "?msd_pell Ak ~$unb2pell(k)":
+~unb2pell(k)):2 states - 1ms
+ (A k ~unb2pell(k))):1 states - 0ms
+Total computation time: 1ms.
+____
+TRUE
+def to2tri "?msd_tri Dequitri[i][j1][j2][k][n] > @1":
+Dequitri[i][j1][j2][k][n]>@1:86743 states - 14984ms
+Total computation time: 14985ms.
+def tri2tri "?msd_tri Ej1,j2 $to2tri(i,j1,j2,k,n)":
+(E j1 , j2 to2tri(i,j1,j2,k,n))):720 states - 223830ms
+Total computation time: 225459ms.
+def unb1tri "?msd_tri Ai En $tri2tri(i,k,n)":
+(E n tri2tri(i,k,n))):12 states - 5ms
+ (A i (E n tri2tri(i,k,n)))):4 states - 0ms
+Total computation time: 9ms.
+eval allfrom1 "?msd_tri Ak $unb1tri(k) <=> k>=1":
+computed ~:1 states - 1ms
+computed ~:2 states - 0ms
+k>=1:4 states - 2ms
+ (unb1tri(k))<=>k>=1):3 states - 0ms
+  (A k (unb1tri(k))<=>k>=1)):1 states - 0ms
+Total computation time: 2ms.
+____
+TRUE

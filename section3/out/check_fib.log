@@ -1,0 +1,128 @@
+Welcome to Walnut! Type "help;" to see all available commands.
+
+[Walnut]$ eval init "?msd_fib Ai,j1,j2,k Dequifib[i][j1][j2][k][0]=@-1 | Dequifib[i][j1][j2][k][0]=@0 | Dequifib[i][j1][j2][k][0]=@1":
+computed ~:1 states - 13ms
+Dequifib[i][j1][j2][k][0]=@-1:37 states - 387ms
+ Dequifib[i][j1][j2][k][0]=@0:59 states - 594ms
+  (Dequifib[i][j1][j2][k][0]=@-1|Dequifib[i][j1][j2][k][0]=@0):62 states - 10ms
+   Dequifib[i][j1][j2][k][0]=@1:37 states - 239ms
+    ((Dequifib[i][j1][j2][k][0]=@-1|Dequifib[i][j1][j2][k][0]=@0)|Dequifib[i][j1][j2][k][0]=@1):16 states - 3ms
+     (A i , j1 , j2 , k ((Dequifib[i][j1][j2][k][0]=@-1|Dequifib[i][j1][j2][k][0]=@0)|Dequifib[i][j1][j2][k][0]=@1)):1 states - 5ms
+Total computation time: 1262ms.
+____
+TRUE
+eval initXX "?msd_fib Ai,j1,j2,k ($feq_fib(i,j1,k) <=> $feq_fib(i,j2,k)) <=> Dequifib[i][j1][j2][k][0]=@0":
+(feq_fib(i,j1,k))<=>feq_fib(i,j2,k))):85 states - 4ms
+ Dequifib[i][j1][j2][k][0]=@0:59 states - 428ms
+  ((feq_fib(i,j1,k))<=>feq_fib(i,j2,k)))<=>Dequifib[i][j1][j2][k][0]=@0):16 states - 3ms
+   (A i , j1 , j2 , k ((feq_fib(i,j1,k))<=>feq_fib(i,j2,k)))<=>Dequifib[i][j1][j2][k][0]=@0)):1 states - 1ms
+Total computation time: 437ms.
+____
+TRUE
+eval initTF "?msd_fib Ai,j1,j2,k ($feq_fib(i,j1,k) & ~$feq_fib(i,j2,k)) <=> Dequifib[i][j1][j2][k][0]=@1":
+~feq_fib(i,j2,k)):23 states - 1ms
+ (feq_fib(i,j1,k))&~feq_fib(i,j2,k))):37 states - 1ms
+  Dequifib[i][j1][j2][k][0]=@1:37 states - 247ms
+   ((feq_fib(i,j1,k))&~feq_fib(i,j2,k)))<=>Dequifib[i][j1][j2][k][0]=@1):16 states - 2ms
+    (A i , j1 , j2 , k ((feq_fib(i,j1,k))&~feq_fib(i,j2,k)))<=>Dequifib[i][j1][j2][k][0]=@1)):1 states - 1ms
+Total computation time: 252ms.
+____
+TRUE
+eval initFT "?msd_fib Ai,j1,j2,k (~$feq_fib(i,j1,k) & $feq_fib(i,j2,k)) <=> Dequifib[i][j1][j2][k][0]=@-1":
+~feq_fib(i,j1,k)):23 states - 1ms
+ (~feq_fib(i,j1,k))&feq_fib(i,j2,k))):37 states - 1ms
+  Dequifib[i][j1][j2][k][0]=@-1:37 states - 244ms
+   ((~feq_fib(i,j1,k))&feq_fib(i,j2,k)))<=>Dequifib[i][j1][j2][k][0]=@-1):16 states - 2ms
+    (A i , j1 , j2 , k ((~feq_fib(i,j1,k))&feq_fib(i,j2,k)))<=>Dequifib[i][j1][j2][k][0]=@-1)):1 states - 1ms
+Total computation time: 249ms.
+____
+TRUE
+def increase "?msd_fib (Dequifib[i][j1][j2][k][n]=@-2 & Dequifib[i][j1][j2][k][n+1]=@-1) | (Dequifib[i][j1][j2][k][n]=@-1 & Dequifib[i][j1][j2][k][n+1]=@0) | (Dequifib[i][j1][j2][k][n]=@0 & Dequifib[i][j1][j2][k][n+1]=@1) | (Dequifib[i][j1][j2][k][n]=@1 & Dequifib[i][j1][j2][k][n+1]=@2)":
+Dequifib[i][j1][j2][k][n]=@-2:2221 states - 144ms
+computed ~:1 states - 0ms
+computed ~:2 states - 0ms
+ Dequifib[i][j1][j2][k][(n+1)]=@-1:9406 states - 786ms
+  (Dequifib[i][j1][j2][k][n]=@-2&Dequifib[i][j1][j2][k][(n+1)]=@-1):944 states - 55ms
+   Dequifib[i][j1][j2][k][n]=@-1:8891 states - 264ms
+    Dequifib[i][j1][j2][k][(n+1)]=@0:13927 states - 1898ms
+     (Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@0):2519 states - 187ms
+      ((Dequifib[i][j1][j2][k][n]=@-2&Dequifib[i][j1][j2][k][(n+1)]=@-1)|(Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@0)):2230 states - 189ms
+       Dequifib[i][j1][j2][k][n]=@0:13405 states - 644ms
+        Dequifib[i][j1][j2][k][(n+1)]=@1:9406 states - 636ms
+         (Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@1):2462 states - 211ms
+          (((Dequifib[i][j1][j2][k][n]=@-2&Dequifib[i][j1][j2][k][(n+1)]=@-1)|(Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@0))|(Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@1)):1831 states - 200ms
+           Dequifib[i][j1][j2][k][n]=@1:8891 states - 256ms
+            Dequifib[i][j1][j2][k][(n+1)]=@2:2428 states - 195ms
+             (Dequifib[i][j1][j2][k][n]=@1&Dequifib[i][j1][j2][k][(n+1)]=@2):939 states - 42ms
+              ((((Dequifib[i][j1][j2][k][n]=@-2&Dequifib[i][j1][j2][k][(n+1)]=@-1)|(Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@0))|(Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@1))|(Dequifib[i][j1][j2][k][n]=@1&Dequifib[i][j1][j2][k][(n+1)]=@2)):824 states - 103ms
+Total computation time: 5815ms.
+def decrease "?msd_fib (Dequifib[i][j1][j2][k][n]=@-1 & Dequifib[i][j1][j2][k][n+1]=@-2) | (Dequifib[i][j1][j2][k][n]=@0 & Dequifib[i][j1][j2][k][n+1]=@-1) | (Dequifib[i][j1][j2][k][n]=@1 & Dequifib[i][j1][j2][k][n+1]=@0) | (Dequifib[i][j1][j2][k][n]=@2 & Dequifib[i][j1][j2][k][n+1]=@1)":
+Dequifib[i][j1][j2][k][n]=@-1:8891 states - 371ms
+ Dequifib[i][j1][j2][k][(n+1)]=@-2:2428 states - 192ms
+  (Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@-2):939 states - 39ms
+   Dequifib[i][j1][j2][k][n]=@0:13405 states - 632ms
+    Dequifib[i][j1][j2][k][(n+1)]=@-1:9406 states - 634ms
+     (Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@-1):2462 states - 216ms
+      ((Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@-2)|(Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@-1)):2228 states - 172ms
+       Dequifib[i][j1][j2][k][n]=@1:8891 states - 249ms
+        Dequifib[i][j1][j2][k][(n+1)]=@0:13927 states - 1747ms
+         (Dequifib[i][j1][j2][k][n]=@1&Dequifib[i][j1][j2][k][(n+1)]=@0):2519 states - 187ms
+          (((Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@-2)|(Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@-1))|(Dequifib[i][j1][j2][k][n]=@1&Dequifib[i][j1][j2][k][(n+1)]=@0)):1779 states - 224ms
+           Dequifib[i][j1][j2][k][n]=@2:2221 states - 166ms
+            Dequifib[i][j1][j2][k][(n+1)]=@1:9406 states - 783ms
+             (Dequifib[i][j1][j2][k][n]=@2&Dequifib[i][j1][j2][k][(n+1)]=@1):944 states - 38ms
+              ((((Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@-2)|(Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@-1))|(Dequifib[i][j1][j2][k][n]=@1&Dequifib[i][j1][j2][k][(n+1)]=@0))|(Dequifib[i][j1][j2][k][n]=@2&Dequifib[i][j1][j2][k][(n+1)]=@1)):824 states - 101ms
+Total computation time: 5753ms.
+def constant "?msd_fib (Dequifib[i][j1][j2][k][n]=@-2 & Dequifib[i][j1][j2][k][n+1]=@-2) | (Dequifib[i][j1][j2][k][n]=@-1 & Dequifib[i][j1][j2][k][n+1]=@-1) | (Dequifib[i][j1][j2][k][n]=@0 & Dequifib[i][j1][j2][k][n+1]=@0) | (Dequifib[i][j1][j2][k][n]=@1 & Dequifib[i][j1][j2][k][n+1]=@1) | (Dequifib[i][j1][j2][k][n]=@2 & Dequifib[i][j1][j2][k][n+1]=@2)":
+Dequifib[i][j1][j2][k][n]=@-2:2221 states - 135ms
+ Dequifib[i][j1][j2][k][(n+1)]=@-2:2428 states - 244ms
+  (Dequifib[i][j1][j2][k][n]=@-2&Dequifib[i][j1][j2][k][(n+1)]=@-2):2221 states - 26ms
+   Dequifib[i][j1][j2][k][n]=@-1:8891 states - 293ms
+    Dequifib[i][j1][j2][k][(n+1)]=@-1:9406 states - 652ms
+     (Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@-1):8891 states - 142ms
+      ((Dequifib[i][j1][j2][k][n]=@-2&Dequifib[i][j1][j2][k][(n+1)]=@-2)|(Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@-1)):8526 states - 852ms
+       Dequifib[i][j1][j2][k][n]=@0:13405 states - 638ms
+        Dequifib[i][j1][j2][k][(n+1)]=@0:13927 states - 1790ms
+         (Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@0):13457 states - 534ms
+          (((Dequifib[i][j1][j2][k][n]=@-2&Dequifib[i][j1][j2][k][(n+1)]=@-2)|(Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@-1))|(Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@0)):10945 states - 2300ms
+           Dequifib[i][j1][j2][k][n]=@1:8891 states - 376ms
+            Dequifib[i][j1][j2][k][(n+1)]=@1:9406 states - 964ms
+             (Dequifib[i][j1][j2][k][n]=@1&Dequifib[i][j1][j2][k][(n+1)]=@1):8891 states - 140ms
+              ((((Dequifib[i][j1][j2][k][n]=@-2&Dequifib[i][j1][j2][k][(n+1)]=@-2)|(Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@-1))|(Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@0))|(Dequifib[i][j1][j2][k][n]=@1&Dequifib[i][j1][j2][k][(n+1)]=@1)):5194 states - 832ms
+               Dequifib[i][j1][j2][k][n]=@2:2221 states - 133ms
+                Dequifib[i][j1][j2][k][(n+1)]=@2:2428 states - 201ms
+                 (Dequifib[i][j1][j2][k][n]=@2&Dequifib[i][j1][j2][k][(n+1)]=@2):2221 states - 22ms
+                  (((((Dequifib[i][j1][j2][k][n]=@-2&Dequifib[i][j1][j2][k][(n+1)]=@-2)|(Dequifib[i][j1][j2][k][n]=@-1&Dequifib[i][j1][j2][k][(n+1)]=@-1))|(Dequifib[i][j1][j2][k][n]=@0&Dequifib[i][j1][j2][k][(n+1)]=@0))|(Dequifib[i][j1][j2][k][n]=@1&Dequifib[i][j1][j2][k][(n+1)]=@1))|(Dequifib[i][j1][j2][k][n]=@2&Dequifib[i][j1][j2][k][(n+1)]=@2)):1823 states - 286ms
+Total computation time: 10563ms.
+eval nxt "?msd_fib Ai,j1,j2,k,n $constant(i,j1,j2,k,n) | $increase(i,j1,j2,k,n) | $decrease(i,j1,j2,k,n)":
+(constant(i,j1,j2,k,n))|increase(i,j1,j2,k,n))):987 states - 161ms
+ ((constant(i,j1,j2,k,n))|increase(i,j1,j2,k,n)))|decrease(i,j1,j2,k,n))):32 states - 46ms
+  (A i , j1 , j2 , k , n ((constant(i,j1,j2,k,n))|increase(i,j1,j2,k,n)))|decrease(i,j1,j2,k,n)))):1 states - 4ms
+Total computation time: 270ms.
+____
+TRUE
+eval nxtXX "?msd_fib Ai,j1,j2,k,n ($feq_fib(i,j1+n+1,k) <=> $feq_fib(i,j2+n+1,k))  <=> $constant(i,j1,j2,k,n)":
+(feq_fib(i,((j1+n)+1),k))<=>feq_fib(i,((j2+n)+1),k))):1823 states - 250ms
+ ((feq_fib(i,((j1+n)+1),k))<=>feq_fib(i,((j2+n)+1),k)))<=>constant(i,j1,j2,k,n))):32 states - 88ms
+  (A i , j1 , j2 , k , n ((feq_fib(i,((j1+n)+1),k))<=>feq_fib(i,((j2+n)+1),k)))<=>constant(i,j1,j2,k,n)))):1 states - 4ms
+Total computation time: 387ms.
+____
+TRUE
+eval nxtTF "?msd_fib Ai,j1,j2,k,n ($feq_fib(i,j1+n+1,k) & ~$feq_fib(i,j2+n+1,k)) <=> $increase(i,j1,j2,k,n)":
+~feq_fib(i,((j2+n)+1),k)):181 states - 9ms
+ (feq_fib(i,((j1+n)+1),k))&~feq_fib(i,((j2+n)+1),k))):824 states - 18ms
+  ((feq_fib(i,((j1+n)+1),k))&~feq_fib(i,((j2+n)+1),k)))<=>increase(i,j1,j2,k,n))):32 states - 40ms
+   (A i , j1 , j2 , k , n ((feq_fib(i,((j1+n)+1),k))&~feq_fib(i,((j2+n)+1),k)))<=>increase(i,j1,j2,k,n)))):1 states - 4ms
+Total computation time: 92ms.
+____
+TRUE
+eval nxtFT "?msd_fib Ai,j1,j2,k,n (~$feq_fib(i,j1+n+1,k) & $feq_fib(i,j2+n+1,k)) <=> $decrease(i,j1,j2,k,n)":
+~feq_fib(i,((j1+n)+1),k)):181 states - 8ms
+ (~feq_fib(i,((j1+n)+1),k))&feq_fib(i,((j2+n)+1),k))):824 states - 19ms
+  ((~feq_fib(i,((j1+n)+1),k))&feq_fib(i,((j2+n)+1),k)))<=>decrease(i,j1,j2,k,n))):32 states - 39ms
+   (A i , j1 , j2 , k , n ((~feq_fib(i,((j1+n)+1),k))&feq_fib(i,((j2+n)+1),k)))<=>decrease(i,j1,j2,k,n)))):1 states - 4ms
+Total computation time: 92ms.
+____
+TRUE
+
+[Walnut]$ 

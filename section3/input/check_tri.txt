@@ -1,0 +1,15 @@
+eval init "?msd_tri Ai,j1,j2,k Dequitri[i][j1][j2][k][0]=@-1 | Dequitri[i][j1][j2][k][0]=@0 | Dequitri[i][j1][j2][k][0]=@1":
+
+eval initXX "?msd_tri Ai,j1,j2,k ($feq_tri(i,j1,k) <=> $feq_tri(i,j2,k)) <=> Dequitri[i][j1][j2][k][0]=@0":
+eval initTF "?msd_tri Ai,j1,j2,k ($feq_tri(i,j1,k) & ~$feq_tri(i,j2,k)) <=> Dequitri[i][j1][j2][k][0]=@1":
+eval initFT "?msd_tri Ai,j1,j2,k (~$feq_tri(i,j1,k) & $feq_tri(i,j2,k)) <=> Dequitri[i][j1][j2][k][0]=@-1":
+
+def increase "?msd_tri (Dequitri[i][j1][j2][k][n]=@-2 & Dequitri[i][j1][j2][k][n+1]=@-1) | (Dequitri[i][j1][j2][k][n]=@-1 & Dequitri[i][j1][j2][k][n+1]=@0) | (Dequitri[i][j1][j2][k][n]=@0 & Dequitri[i][j1][j2][k][n+1]=@1) | (Dequitri[i][j1][j2][k][n]=@1 & Dequitri[i][j1][j2][k][n+1]=@2)":
+def decrease "?msd_tri (Dequitri[i][j1][j2][k][n]=@-1 & Dequitri[i][j1][j2][k][n+1]=@-2) | (Dequitri[i][j1][j2][k][n]=@0 & Dequitri[i][j1][j2][k][n+1]=@-1) | (Dequitri[i][j1][j2][k][n]=@1 & Dequitri[i][j1][j2][k][n+1]=@0) | (Dequitri[i][j1][j2][k][n]=@2 & Dequitri[i][j1][j2][k][n+1]=@1)":
+def constant "?msd_tri (Dequitri[i][j1][j2][k][n]=@-2 & Dequitri[i][j1][j2][k][n+1]=@-2) | (Dequitri[i][j1][j2][k][n]=@-1 & Dequitri[i][j1][j2][k][n+1]=@-1) | (Dequitri[i][j1][j2][k][n]=@0 & Dequitri[i][j1][j2][k][n+1]=@0) | (Dequitri[i][j1][j2][k][n]=@1 & Dequitri[i][j1][j2][k][n+1]=@1) | (Dequitri[i][j1][j2][k][n]=@2 & Dequitri[i][j1][j2][k][n+1]=@2)":
+
+eval nxt "?msd_tri Ai,j1,j2,k,n $constant(i,j1,j2,k,n) | $increase(i,j1,j2,k,n) | $decrease(i,j1,j2,k,n)":
+eval nxtXX "?msd_tri Ai,j1,j2,k,n ($feq_tri(i,j1+n+1,k) <=> $feq_tri(i,j2+n+1,k))  <=> $constant(i,j1,j2,k,n)":
+eval nxtTF "?msd_tri Ai,j1,j2,k,n ($feq_tri(i,j1+n+1,k) & ~$feq_tri(i,j2+n+1,k)) <=> $increase(i,j1,j2,k,n)":
+eval nxtFT "?msd_tri Ai,j1,j2,k,n (~$feq_tri(i,j1+n+1,k) & $feq_tri(i,j2+n+1,k)) <=> $decrease(i,j1,j2,k,n)":
+

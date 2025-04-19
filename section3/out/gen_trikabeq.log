@@ -1,0 +1,379 @@
+Welcome to Walnut! Type "help;" to see all available commands.
+
+[Walnut]$ def diffabeqtri "?msd_tri (Diffabeqtri[k][n]=@0 & v=0) | (Diffabeqtri[k][n]=@1 & v=1) | (Diffabeqtri[k][n]=@2 & v=2) | (Diffabeqtri[k][n]=@3 & v=3) | (Diffabeqtri[k][n]=@4 & v=4) | (Diffabeqtri[k][n]=@5 & v=5) | (Diffabeqtri[k][n]=@6 & v=6) | (Diffabeqtri[k][n]=@7 & v=7) | (Diffabeqtri[k][n]=@8 & v=8) | (Diffabeqtri[k][n]=@9 & v=9) | (Diffabeqtri[k][n]=@10 & v=10) | (Diffabeqtri[k][n]=@11 & v=11) | (Diffabeqtri[k][n]=@12 & v=12) | (Diffabeqtri[k][n]=@13 & v=13) | (Diffabeqtri[k][n]=@14 & v=14) | (Diffabeqtri[k][n]=@15 & v=15) | (Diffabeqtri[k][n]=@16 & v=16) | (Diffabeqtri[k][n]=@17 & v=17)":
+Diffabeqtri[k][n]=@0:10 states - 78ms
+computed ~:1 states - 8ms
+ v=0:1 states - 11ms
+  (Diffabeqtri[k][n]=@0&v=0):10 states - 1ms
+   Diffabeqtri[k][n]=@1:1 states - 35ms
+computed ~:1 states - 1ms
+computed ~:2 states - 1ms
+    v=1:2 states - 2ms
+     (Diffabeqtri[k][n]=@1&v=1):1 states - 0ms
+      ((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1)):1 states - 2ms
+       Diffabeqtri[k][n]=@2:97 states - 20ms
+        v=2:3 states - 1ms
+         (Diffabeqtri[k][n]=@2&v=2):107 states - 2ms
+          (((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2)):107 states - 8ms
+           Diffabeqtri[k][n]=@3:220 states - 41ms
+            v=3:3 states - 1ms
+             (Diffabeqtri[k][n]=@3&v=3):234 states - 4ms
+              ((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3)):288 states - 18ms
+               Diffabeqtri[k][n]=@4:264 states - 17ms
+                v=4:4 states - 1ms
+                 (Diffabeqtri[k][n]=@4&v=4):406 states - 5ms
+                  (((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4)):628 states - 30ms
+                   Diffabeqtri[k][n]=@5:287 states - 18ms
+                    v=5:4 states - 0ms
+                     (Diffabeqtri[k][n]=@5&v=5):418 states - 3ms
+                      ((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5)):982 states - 28ms
+                       Diffabeqtri[k][n]=@6:509 states - 17ms
+                        v=6:4 states - 1ms
+                         (Diffabeqtri[k][n]=@6&v=6):731 states - 6ms
+                          (((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6)):1688 states - 47ms
+                           Diffabeqtri[k][n]=@7:675 states - 16ms
+                            v=7:5 states - 1ms
+                             (Diffabeqtri[k][n]=@7&v=7):1570 states - 12ms
+                              ((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7)):3175 states - 90ms
+                               Diffabeqtri[k][n]=@8:848 states - 16ms
+                                v=8:5 states - 1ms
+                                 (Diffabeqtri[k][n]=@8&v=8):1904 states - 16ms
+                                  (((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7))|(Diffabeqtri[k][n]=@8&v=8)):5378 states - 124ms
+                                   Diffabeqtri[k][n]=@9:1148 states - 17ms
+                                    v=9:5 states - 1ms
+                                     (Diffabeqtri[k][n]=@9&v=9):2537 states - 18ms
+                                      ((((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7))|(Diffabeqtri[k][n]=@8&v=8))|(Diffabeqtri[k][n]=@9&v=9)):8212 states - 190ms
+                                       Diffabeqtri[k][n]=@10:1289 states - 17ms
+                                        v=10:5 states - 1ms
+                                         (Diffabeqtri[k][n]=@10&v=10):2763 states - 20ms
+                                          (((((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7))|(Diffabeqtri[k][n]=@8&v=8))|(Diffabeqtri[k][n]=@9&v=9))|(Diffabeqtri[k][n]=@10&v=10)):11134 states - 303ms
+                                           Diffabeqtri[k][n]=@11:1246 states - 15ms
+                                            v=11:5 states - 1ms
+                                             (Diffabeqtri[k][n]=@11&v=11):2653 states - 16ms
+                                              ((((((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7))|(Diffabeqtri[k][n]=@8&v=8))|(Diffabeqtri[k][n]=@9&v=9))|(Diffabeqtri[k][n]=@10&v=10))|(Diffabeqtri[k][n]=@11&v=11)):13596 states - 342ms
+                                               Diffabeqtri[k][n]=@12:1204 states - 16ms
+                                                v=12:5 states - 1ms
+                                                 (Diffabeqtri[k][n]=@12&v=12):2512 states - 15ms
+                                                  (((((((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7))|(Diffabeqtri[k][n]=@8&v=8))|(Diffabeqtri[k][n]=@9&v=9))|(Diffabeqtri[k][n]=@10&v=10))|(Diffabeqtri[k][n]=@11&v=11))|(Diffabeqtri[k][n]=@12&v=12)):16137 states - 419ms
+                                                   Diffabeqtri[k][n]=@13:1043 states - 15ms
+                                                    v=13:6 states - 1ms
+                                                     (Diffabeqtri[k][n]=@13&v=13):3061 states - 16ms
+                                                      ((((((((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7))|(Diffabeqtri[k][n]=@8&v=8))|(Diffabeqtri[k][n]=@9&v=9))|(Diffabeqtri[k][n]=@10&v=10))|(Diffabeqtri[k][n]=@11&v=11))|(Diffabeqtri[k][n]=@12&v=12))|(Diffabeqtri[k][n]=@13&v=13)):18887 states - 581ms
+                                                       Diffabeqtri[k][n]=@14:866 states - 18ms
+                                                        v=14:6 states - 1ms
+                                                         (Diffabeqtri[k][n]=@14&v=14):2566 states - 17ms
+                                                          (((((((((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7))|(Diffabeqtri[k][n]=@8&v=8))|(Diffabeqtri[k][n]=@9&v=9))|(Diffabeqtri[k][n]=@10&v=10))|(Diffabeqtri[k][n]=@11&v=11))|(Diffabeqtri[k][n]=@12&v=12))|(Diffabeqtri[k][n]=@13&v=13))|(Diffabeqtri[k][n]=@14&v=14)):20697 states - 601ms
+                                                           Diffabeqtri[k][n]=@15:496 states - 12ms
+                                                            v=15:6 states - 1ms
+                                                             (Diffabeqtri[k][n]=@15&v=15):1350 states - 6ms
+                                                              ((((((((((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7))|(Diffabeqtri[k][n]=@8&v=8))|(Diffabeqtri[k][n]=@9&v=9))|(Diffabeqtri[k][n]=@10&v=10))|(Diffabeqtri[k][n]=@11&v=11))|(Diffabeqtri[k][n]=@12&v=12))|(Diffabeqtri[k][n]=@13&v=13))|(Diffabeqtri[k][n]=@14&v=14))|(Diffabeqtri[k][n]=@15&v=15)):21685 states - 628ms
+                                                               Diffabeqtri[k][n]=@16:401 states - 14ms
+                                                                v=16:6 states - 1ms
+                                                                 (Diffabeqtri[k][n]=@16&v=16):1118 states - 7ms
+                                                                  (((((((((((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7))|(Diffabeqtri[k][n]=@8&v=8))|(Diffabeqtri[k][n]=@9&v=9))|(Diffabeqtri[k][n]=@10&v=10))|(Diffabeqtri[k][n]=@11&v=11))|(Diffabeqtri[k][n]=@12&v=12))|(Diffabeqtri[k][n]=@13&v=13))|(Diffabeqtri[k][n]=@14&v=14))|(Diffabeqtri[k][n]=@15&v=15))|(Diffabeqtri[k][n]=@16&v=16)):21855 states - 628ms
+                                                                   Diffabeqtri[k][n]=@17:139 states - 13ms
+                                                                    v=17:6 states - 1ms
+                                                                     (Diffabeqtri[k][n]=@17&v=17):262 states - 1ms
+                                                                      ((((((((((((((((((Diffabeqtri[k][n]=@0&v=0)|(Diffabeqtri[k][n]=@1&v=1))|(Diffabeqtri[k][n]=@2&v=2))|(Diffabeqtri[k][n]=@3&v=3))|(Diffabeqtri[k][n]=@4&v=4))|(Diffabeqtri[k][n]=@5&v=5))|(Diffabeqtri[k][n]=@6&v=6))|(Diffabeqtri[k][n]=@7&v=7))|(Diffabeqtri[k][n]=@8&v=8))|(Diffabeqtri[k][n]=@9&v=9))|(Diffabeqtri[k][n]=@10&v=10))|(Diffabeqtri[k][n]=@11&v=11))|(Diffabeqtri[k][n]=@12&v=12))|(Diffabeqtri[k][n]=@13&v=13))|(Diffabeqtri[k][n]=@14&v=14))|(Diffabeqtri[k][n]=@15&v=15))|(Diffabeqtri[k][n]=@16&v=16))|(Diffabeqtri[k][n]=@17&v=17)):21816 states - 732ms
+Total computation time: 5373ms.
+def abeq1tri "?msd_tri Ev $diffabeqtri(0,n,v) & w=v+1":
+w=(v+1):6 states - 1ms
+ (diffabeqtri(0,n,v))&w=(v+1)):123 states - 1ms
+  (E v (diffabeqtri(0,n,v))&w=(v+1))):125 states - 5ms
+Total computation time: 12ms.
+def abeq2tri "?msd_tri Eu,v $abeq1tri(n,u) & $diffabeqtri(1,n,v) & w=u+v":
+(abeq1tri(n,u))&diffabeqtri(1,n,v))):243 states - 3ms
+ w=(u+v):149 states - 2ms
+  ((abeq1tri(n,u))&diffabeqtri(1,n,v)))&w=(u+v)):325 states - 3ms
+   (E u , v ((abeq1tri(n,u))&diffabeqtri(1,n,v)))&w=(u+v))):242 states - 3ms
+Total computation time: 19ms.
+def abeq3tri "?msd_tri Eu,v $abeq2tri(n,u) & $diffabeqtri(2,n,v) & w=u+v":
+(abeq2tri(n,u))&diffabeqtri(2,n,v))):405 states - 6ms
+ w=(u+v):149 states - 2ms
+  ((abeq2tri(n,u))&diffabeqtri(2,n,v)))&w=(u+v)):551 states - 3ms
+   (E u , v ((abeq2tri(n,u))&diffabeqtri(2,n,v)))&w=(u+v))):397 states - 3ms
+Total computation time: 26ms.
+def abeq4tri "?msd_tri Eu,v $abeq3tri(n,u) & $diffabeqtri(3,n,v) & w=u+v":
+(abeq3tri(n,u))&diffabeqtri(3,n,v))):580 states - 9ms
+ w=(u+v):149 states - 1ms
+  ((abeq3tri(n,u))&diffabeqtri(3,n,v)))&w=(u+v)):790 states - 5ms
+   (E u , v ((abeq3tri(n,u))&diffabeqtri(3,n,v)))&w=(u+v))):527 states - 2ms
+Total computation time: 28ms.
+def abeq5tri "?msd_tri Eu,v $abeq4tri(n,u) & $diffabeqtri(4,n,v) & w=u+v":
+(abeq4tri(n,u))&diffabeqtri(4,n,v))):717 states - 17ms
+ w=(u+v):149 states - 2ms
+  ((abeq4tri(n,u))&diffabeqtri(4,n,v)))&w=(u+v)):1040 states - 7ms
+   (E u , v ((abeq4tri(n,u))&diffabeqtri(4,n,v)))&w=(u+v))):628 states - 4ms
+Total computation time: 65ms.
+def abeq6tri "?msd_tri Eu,v $abeq5tri(n,u) & $diffabeqtri(5,n,v) & w=u+v":
+(abeq5tri(n,u))&diffabeqtri(5,n,v))):858 states - 19ms
+ w=(u+v):149 states - 2ms
+  ((abeq5tri(n,u))&diffabeqtri(5,n,v)))&w=(u+v)):1254 states - 6ms
+   (E u , v ((abeq5tri(n,u))&diffabeqtri(5,n,v)))&w=(u+v))):788 states - 5ms
+Total computation time: 49ms.
+def abeq7tri "?msd_tri Eu,v $abeq6tri(n,u) & $diffabeqtri(6,n,v) & w=u+v":
+(abeq6tri(n,u))&diffabeqtri(6,n,v))):1052 states - 28ms
+ w=(u+v):149 states - 1ms
+  ((abeq6tri(n,u))&diffabeqtri(6,n,v)))&w=(u+v)):1439 states - 8ms
+   (E u , v ((abeq6tri(n,u))&diffabeqtri(6,n,v)))&w=(u+v))):908 states - 5ms
+Total computation time: 59ms.
+def abeq8tri "?msd_tri Eu,v $abeq7tri(n,u) & $diffabeqtri(7,n,v) & w=u+v":
+(abeq7tri(n,u))&diffabeqtri(7,n,v))):1182 states - 42ms
+ w=(u+v):149 states - 2ms
+  ((abeq7tri(n,u))&diffabeqtri(7,n,v)))&w=(u+v)):1603 states - 9ms
+   (E u , v ((abeq7tri(n,u))&diffabeqtri(7,n,v)))&w=(u+v))):974 states - 5ms
+Total computation time: 87ms.
+def abeq9tri "?msd_tri Eu,v $abeq8tri(n,u) & $diffabeqtri(8,n,v) & w=u+v":
+(abeq8tri(n,u))&diffabeqtri(8,n,v))):1252 states - 31ms
+ w=(u+v):149 states - 2ms
+  ((abeq8tri(n,u))&diffabeqtri(8,n,v)))&w=(u+v)):1751 states - 9ms
+   (E u , v ((abeq8tri(n,u))&diffabeqtri(8,n,v)))&w=(u+v))):998 states - 6ms
+Total computation time: 74ms.
+def abeq10tri "?msd_tri Eu,v $abeq9tri(n,u) & $diffabeqtri(9,n,v) & w=u+v":
+(abeq9tri(n,u))&diffabeqtri(9,n,v))):1427 states - 43ms
+ w=(u+v):149 states - 2ms
+  ((abeq9tri(n,u))&diffabeqtri(9,n,v)))&w=(u+v)):2013 states - 12ms
+   (E u , v ((abeq9tri(n,u))&diffabeqtri(9,n,v)))&w=(u+v))):1205 states - 6ms
+Total computation time: 85ms.
+def abeq11tri "?msd_tri Eu,v $abeq10tri(n,u) & $diffabeqtri(10,n,v) & w=u+v":
+(abeq10tri(n,u))&diffabeqtri(10,n,v))):1645 states - 48ms
+ w=(u+v):149 states - 1ms
+  ((abeq10tri(n,u))&diffabeqtri(10,n,v)))&w=(u+v)):2260 states - 13ms
+   (E u , v ((abeq10tri(n,u))&diffabeqtri(10,n,v)))&w=(u+v))):1354 states - 8ms
+Total computation time: 94ms.
+def abeq12tri "?msd_tri Eu,v $abeq11tri(n,u) & $diffabeqtri(11,n,v) & w=u+v":
+(abeq11tri(n,u))&diffabeqtri(11,n,v))):1761 states - 54ms
+ w=(u+v):149 states - 1ms
+  ((abeq11tri(n,u))&diffabeqtri(11,n,v)))&w=(u+v)):2482 states - 15ms
+   (E u , v ((abeq11tri(n,u))&diffabeqtri(11,n,v)))&w=(u+v))):1435 states - 7ms
+Total computation time: 101ms.
+def abeq13tri "?msd_tri Eu,v $abeq12tri(n,u) & $diffabeqtri(12,n,v) & w=u+v":
+(abeq12tri(n,u))&diffabeqtri(12,n,v))):1833 states - 57ms
+ w=(u+v):149 states - 1ms
+  ((abeq12tri(n,u))&diffabeqtri(12,n,v)))&w=(u+v)):2541 states - 15ms
+   (E u , v ((abeq12tri(n,u))&diffabeqtri(12,n,v)))&w=(u+v))):1498 states - 7ms
+Total computation time: 100ms.
+def abeq14tri "?msd_tri Eu,v $abeq13tri(n,u) & $diffabeqtri(13,n,v) & w=u+v":
+(abeq13tri(n,u))&diffabeqtri(13,n,v))):1934 states - 63ms
+ w=(u+v):149 states - 1ms
+  ((abeq13tri(n,u))&diffabeqtri(13,n,v)))&w=(u+v)):2661 states - 16ms
+   (E u , v ((abeq13tri(n,u))&diffabeqtri(13,n,v)))&w=(u+v))):1495 states - 7ms
+Total computation time: 120ms.
+def abeq15tri "?msd_tri Eu,v $abeq14tri(n,u) & $diffabeqtri(14,n,v) & w=u+v":
+(abeq14tri(n,u))&diffabeqtri(14,n,v))):1908 states - 65ms
+ w=(u+v):149 states - 1ms
+  ((abeq14tri(n,u))&diffabeqtri(14,n,v)))&w=(u+v)):2707 states - 16ms
+   (E u , v ((abeq14tri(n,u))&diffabeqtri(14,n,v)))&w=(u+v))):1415 states - 7ms
+Total computation time: 116ms.
+def abeq16tri "?msd_tri Eu,v $abeq15tri(n,u) & $diffabeqtri(15,n,v) & w=u+v":
+(abeq15tri(n,u))&diffabeqtri(15,n,v))):1804 states - 52ms
+ w=(u+v):149 states - 2ms
+  ((abeq15tri(n,u))&diffabeqtri(15,n,v)))&w=(u+v)):2551 states - 15ms
+   (E u , v ((abeq15tri(n,u))&diffabeqtri(15,n,v)))&w=(u+v))):1285 states - 7ms
+Total computation time: 110ms.
+def abeq17tri "?msd_tri Eu,v $abeq16tri(n,u) & $diffabeqtri(16,n,v) & w=u+v":
+(abeq16tri(n,u))&diffabeqtri(16,n,v))):1952 states - 63ms
+ w=(u+v):149 states - 1ms
+  ((abeq16tri(n,u))&diffabeqtri(16,n,v)))&w=(u+v)):2904 states - 18ms
+   (E u , v ((abeq16tri(n,u))&diffabeqtri(16,n,v)))&w=(u+v))):1627 states - 8ms
+Total computation time: 121ms.
+def abeq18tri "?msd_tri Eu,v $abeq17tri(n,u) & $diffabeqtri(17,n,v) & w=u+v":
+(abeq17tri(n,u))&diffabeqtri(17,n,v))):2403 states - 80ms
+ w=(u+v):149 states - 2ms
+  ((abeq17tri(n,u))&diffabeqtri(17,n,v)))&w=(u+v)):3321 states - 20ms
+   (E u , v ((abeq17tri(n,u))&diffabeqtri(17,n,v)))&w=(u+v))):1882 states - 9ms
+Total computation time: 138ms.
+def abeq19tri "?msd_tri Eu,v $abeq18tri(n,u) & $diffabeqtri(18,n,v) & w=u+v":
+(abeq18tri(n,u))&diffabeqtri(18,n,v))):2444 states - 84ms
+ w=(u+v):149 states - 1ms
+  ((abeq18tri(n,u))&diffabeqtri(18,n,v)))&w=(u+v)):3373 states - 21ms
+   (E u , v ((abeq18tri(n,u))&diffabeqtri(18,n,v)))&w=(u+v))):1830 states - 8ms
+Total computation time: 145ms.
+def abeq20tri "?msd_tri Eu,v $abeq19tri(n,u) & $diffabeqtri(19,n,v) & w=u+v":
+(abeq19tri(n,u))&diffabeqtri(19,n,v))):2463 states - 87ms
+ w=(u+v):149 states - 1ms
+  ((abeq19tri(n,u))&diffabeqtri(19,n,v)))&w=(u+v)):3426 states - 21ms
+   (E u , v ((abeq19tri(n,u))&diffabeqtri(19,n,v)))&w=(u+v))):2032 states - 9ms
+Total computation time: 144ms.
+def abeq21tri "?msd_tri Eu,v $abeq20tri(n,u) & $diffabeqtri(20,n,v) & w=u+v":
+(abeq20tri(n,u))&diffabeqtri(20,n,v))):2591 states - 91ms
+ w=(u+v):149 states - 1ms
+  ((abeq20tri(n,u))&diffabeqtri(20,n,v)))&w=(u+v)):3621 states - 22ms
+   (E u , v ((abeq20tri(n,u))&diffabeqtri(20,n,v)))&w=(u+v))):2005 states - 10ms
+Total computation time: 153ms.
+def abeq22tri "?msd_tri Eu,v $abeq21tri(n,u) & $diffabeqtri(21,n,v) & w=u+v":
+(abeq21tri(n,u))&diffabeqtri(21,n,v))):2602 states - 93ms
+ w=(u+v):149 states - 2ms
+  ((abeq21tri(n,u))&diffabeqtri(21,n,v)))&w=(u+v)):3620 states - 21ms
+   (E u , v ((abeq21tri(n,u))&diffabeqtri(21,n,v)))&w=(u+v))):2028 states - 10ms
+Total computation time: 150ms.
+def abeq23tri "?msd_tri Eu,v $abeq22tri(n,u) & $diffabeqtri(22,n,v) & w=u+v":
+(abeq22tri(n,u))&diffabeqtri(22,n,v))):2597 states - 90ms
+ w=(u+v):149 states - 2ms
+  ((abeq22tri(n,u))&diffabeqtri(22,n,v)))&w=(u+v)):3642 states - 22ms
+   (E u , v ((abeq22tri(n,u))&diffabeqtri(22,n,v)))&w=(u+v))):2049 states - 9ms
+Total computation time: 152ms.
+def abeq24tri "?msd_tri Eu,v $abeq23tri(n,u) & $diffabeqtri(23,n,v) & w=u+v":
+(abeq23tri(n,u))&diffabeqtri(23,n,v))):2676 states - 100ms
+ w=(u+v):149 states - 2ms
+  ((abeq23tri(n,u))&diffabeqtri(23,n,v)))&w=(u+v)):3783 states - 22ms
+   (E u , v ((abeq23tri(n,u))&diffabeqtri(23,n,v)))&w=(u+v))):2104 states - 15ms
+Total computation time: 163ms.
+def abeq25tri "?msd_tri Eu,v $abeq24tri(n,u) & $diffabeqtri(24,n,v) & w=u+v":
+(abeq24tri(n,u))&diffabeqtri(24,n,v))):2762 states - 99ms
+ w=(u+v):149 states - 1ms
+  ((abeq24tri(n,u))&diffabeqtri(24,n,v)))&w=(u+v)):3807 states - 23ms
+   (E u , v ((abeq24tri(n,u))&diffabeqtri(24,n,v)))&w=(u+v))):2268 states - 10ms
+Total computation time: 172ms.
+def abeq26tri "?msd_tri Eu,v $abeq25tri(n,u) & $diffabeqtri(25,n,v) & w=u+v":
+(abeq25tri(n,u))&diffabeqtri(25,n,v))):2804 states - 122ms
+ w=(u+v):149 states - 2ms
+  ((abeq25tri(n,u))&diffabeqtri(25,n,v)))&w=(u+v)):3957 states - 24ms
+   (E u , v ((abeq25tri(n,u))&diffabeqtri(25,n,v)))&w=(u+v))):2167 states - 10ms
+Total computation time: 198ms.
+def abeq27tri "?msd_tri Eu,v $abeq26tri(n,u) & $diffabeqtri(26,n,v) & w=u+v":
+(abeq26tri(n,u))&diffabeqtri(26,n,v))):2804 states - 105ms
+ w=(u+v):149 states - 2ms
+  ((abeq26tri(n,u))&diffabeqtri(26,n,v)))&w=(u+v)):3897 states - 24ms
+   (E u , v ((abeq26tri(n,u))&diffabeqtri(26,n,v)))&w=(u+v))):2189 states - 10ms
+Total computation time: 180ms.
+def abeq28tri "?msd_tri Eu,v $abeq27tri(n,u) & $diffabeqtri(27,n,v) & w=u+v":
+(abeq27tri(n,u))&diffabeqtri(27,n,v))):2789 states - 108ms
+ w=(u+v):149 states - 1ms
+  ((abeq27tri(n,u))&diffabeqtri(27,n,v)))&w=(u+v)):3952 states - 40ms
+   (E u , v ((abeq27tri(n,u))&diffabeqtri(27,n,v)))&w=(u+v))):1808 states - 9ms
+Total computation time: 198ms.
+def abeq29tri "?msd_tri Eu,v $abeq28tri(n,u) & $diffabeqtri(28,n,v) & w=u+v":
+(abeq28tri(n,u))&diffabeqtri(28,n,v))):2388 states - 85ms
+ w=(u+v):149 states - 1ms
+  ((abeq28tri(n,u))&diffabeqtri(28,n,v)))&w=(u+v)):3552 states - 22ms
+   (E u , v ((abeq28tri(n,u))&diffabeqtri(28,n,v)))&w=(u+v))):1670 states - 8ms
+Total computation time: 160ms.
+def abeq30tri "?msd_tri Eu,v $abeq29tri(n,u) & $diffabeqtri(29,n,v) & w=u+v":
+(abeq29tri(n,u))&diffabeqtri(29,n,v))):2714 states - 94ms
+ w=(u+v):149 states - 2ms
+  ((abeq29tri(n,u))&diffabeqtri(29,n,v)))&w=(u+v)):4074 states - 34ms
+   (E u , v ((abeq29tri(n,u))&diffabeqtri(29,n,v)))&w=(u+v))):2136 states - 15ms
+Total computation time: 185ms.
+def abeq31tri "?msd_tri Eu,v $abeq30tri(n,u) & $diffabeqtri(30,n,v) & w=u+v":
+(abeq30tri(n,u))&diffabeqtri(30,n,v))):3218 states - 126ms
+ w=(u+v):149 states - 1ms
+  ((abeq30tri(n,u))&diffabeqtri(30,n,v)))&w=(u+v)):4565 states - 30ms
+   (E u , v ((abeq30tri(n,u))&diffabeqtri(30,n,v)))&w=(u+v))):2504 states - 12ms
+Total computation time: 209ms.
+def abeq32tri "?msd_tri Eu,v $abeq31tri(n,u) & $diffabeqtri(31,n,v) & w=u+v":
+(abeq31tri(n,u))&diffabeqtri(31,n,v))):3313 states - 164ms
+ w=(u+v):149 states - 2ms
+  ((abeq31tri(n,u))&diffabeqtri(31,n,v)))&w=(u+v)):4656 states - 42ms
+   (E u , v ((abeq31tri(n,u))&diffabeqtri(31,n,v)))&w=(u+v))):2532 states - 16ms
+Total computation time: 260ms.
+def abeq33tri "?msd_tri Eu,v $abeq32tri(n,u) & $diffabeqtri(32,n,v) & w=u+v":
+(abeq32tri(n,u))&diffabeqtri(32,n,v))):3226 states - 137ms
+ w=(u+v):149 states - 1ms
+  ((abeq32tri(n,u))&diffabeqtri(32,n,v)))&w=(u+v)):4607 states - 28ms
+   (E u , v ((abeq32tri(n,u))&diffabeqtri(32,n,v)))&w=(u+v))):2573 states - 12ms
+Total computation time: 210ms.
+def abeq34tri "?msd_tri Eu,v $abeq33tri(n,u) & $diffabeqtri(33,n,v) & w=u+v":
+(abeq33tri(n,u))&diffabeqtri(33,n,v))):3332 states - 172ms
+ w=(u+v):149 states - 2ms
+  ((abeq33tri(n,u))&diffabeqtri(33,n,v)))&w=(u+v)):4731 states - 29ms
+   (E u , v ((abeq33tri(n,u))&diffabeqtri(33,n,v)))&w=(u+v))):2608 states - 12ms
+Total computation time: 260ms.
+def abeq35tri "?msd_tri Eu,v $abeq34tri(n,u) & $diffabeqtri(34,n,v) & w=u+v":
+(abeq34tri(n,u))&diffabeqtri(34,n,v))):3369 states - 145ms
+ w=(u+v):149 states - 1ms
+  ((abeq34tri(n,u))&diffabeqtri(34,n,v)))&w=(u+v)):4890 states - 29ms
+   (E u , v ((abeq34tri(n,u))&diffabeqtri(34,n,v)))&w=(u+v))):2618 states - 13ms
+Total computation time: 220ms.
+def abeq36tri "?msd_tri Eu,v $abeq35tri(n,u) & $diffabeqtri(35,n,v) & w=u+v":
+(abeq35tri(n,u))&diffabeqtri(35,n,v))):3412 states - 143ms
+ w=(u+v):149 states - 1ms
+  ((abeq35tri(n,u))&diffabeqtri(35,n,v)))&w=(u+v)):4879 states - 30ms
+   (E u , v ((abeq35tri(n,u))&diffabeqtri(35,n,v)))&w=(u+v))):2548 states - 13ms
+Total computation time: 230ms.
+def abeq37tri "?msd_tri Eu,v $abeq36tri(n,u) & $diffabeqtri(36,n,v) & w=u+v":
+(abeq36tri(n,u))&diffabeqtri(36,n,v))):3406 states - 147ms
+ w=(u+v):149 states - 2ms
+  ((abeq36tri(n,u))&diffabeqtri(36,n,v)))&w=(u+v)):4946 states - 30ms
+   (E u , v ((abeq36tri(n,u))&diffabeqtri(36,n,v)))&w=(u+v))):2719 states - 13ms
+Total computation time: 222ms.
+def abeq38tri "?msd_tri Eu,v $abeq37tri(n,u) & $diffabeqtri(37,n,v) & w=u+v":
+(abeq37tri(n,u))&diffabeqtri(37,n,v))):3572 states - 153ms
+ w=(u+v):149 states - 2ms
+  ((abeq37tri(n,u))&diffabeqtri(37,n,v)))&w=(u+v)):5071 states - 33ms
+   (E u , v ((abeq37tri(n,u))&diffabeqtri(37,n,v)))&w=(u+v))):2851 states - 13ms
+Total computation time: 235ms.
+def abeq39tri "?msd_tri Eu,v $abeq38tri(n,u) & $diffabeqtri(38,n,v) & w=u+v":
+(abeq38tri(n,u))&diffabeqtri(38,n,v))):3660 states - 156ms
+ w=(u+v):149 states - 2ms
+  ((abeq38tri(n,u))&diffabeqtri(38,n,v)))&w=(u+v)):5076 states - 33ms
+   (E u , v ((abeq38tri(n,u))&diffabeqtri(38,n,v)))&w=(u+v))):2720 states - 14ms
+Total computation time: 239ms.
+def abeq40tri "?msd_tri Eu,v $abeq39tri(n,u) & $diffabeqtri(39,n,v) & w=u+v":
+(abeq39tri(n,u))&diffabeqtri(39,n,v))):3536 states - 146ms
+ w=(u+v):149 states - 2ms
+  ((abeq39tri(n,u))&diffabeqtri(39,n,v)))&w=(u+v)):5017 states - 34ms
+   (E u , v ((abeq39tri(n,u))&diffabeqtri(39,n,v)))&w=(u+v))):2667 states - 13ms
+Total computation time: 229ms.
+def abeq41tri "?msd_tri Eu,v $abeq40tri(n,u) & $diffabeqtri(40,n,v) & w=u+v":
+(abeq40tri(n,u))&diffabeqtri(40,n,v))):3544 states - 149ms
+ w=(u+v):149 states - 1ms
+  ((abeq40tri(n,u))&diffabeqtri(40,n,v)))&w=(u+v)):5148 states - 33ms
+   (E u , v ((abeq40tri(n,u))&diffabeqtri(40,n,v)))&w=(u+v))):2418 states - 13ms
+Total computation time: 226ms.
+def abeq42tri "?msd_tri Eu,v $abeq41tri(n,u) & $diffabeqtri(41,n,v) & w=u+v":
+(abeq41tri(n,u))&diffabeqtri(41,n,v))):3585 states - 150ms
+ w=(u+v):149 states - 2ms
+  ((abeq41tri(n,u))&diffabeqtri(41,n,v)))&w=(u+v)):5260 states - 34ms
+   (E u , v ((abeq41tri(n,u))&diffabeqtri(41,n,v)))&w=(u+v))):2839 states - 14ms
+Total computation time: 235ms.
+def abeq43tri "?msd_tri Eu,v $abeq42tri(n,u) & $diffabeqtri(42,n,v) & w=u+v":
+(abeq42tri(n,u))&diffabeqtri(42,n,v))):3651 states - 160ms
+ w=(u+v):149 states - 1ms
+  ((abeq42tri(n,u))&diffabeqtri(42,n,v)))&w=(u+v)):5275 states - 35ms
+   (E u , v ((abeq42tri(n,u))&diffabeqtri(42,n,v)))&w=(u+v))):2823 states - 13ms
+Total computation time: 240ms.
+def abeq44tri "?msd_tri Eu,v $abeq43tri(n,u) & $diffabeqtri(43,n,v) & w=u+v":
+(abeq43tri(n,u))&diffabeqtri(43,n,v))):3751 states - 167ms
+ w=(u+v):149 states - 1ms
+  ((abeq43tri(n,u))&diffabeqtri(43,n,v)))&w=(u+v)):5318 states - 35ms
+   (E u , v ((abeq43tri(n,u))&diffabeqtri(43,n,v)))&w=(u+v))):2919 states - 14ms
+Total computation time: 253ms.
+def abeq45tri "?msd_tri Eu,v $abeq44tri(n,u) & $diffabeqtri(44,n,v) & w=u+v":
+(abeq44tri(n,u))&diffabeqtri(44,n,v))):3759 states - 194ms
+ w=(u+v):149 states - 2ms
+  ((abeq44tri(n,u))&diffabeqtri(44,n,v)))&w=(u+v)):5335 states - 51ms
+   (E u , v ((abeq44tri(n,u))&diffabeqtri(44,n,v)))&w=(u+v))):2993 states - 21ms
+Total computation time: 307ms.
+def abeq46tri "?msd_tri Eu,v $abeq45tri(n,u) & $diffabeqtri(45,n,v) & w=u+v":
+(abeq45tri(n,u))&diffabeqtri(45,n,v))):3718 states - 169ms
+ w=(u+v):149 states - 1ms
+  ((abeq45tri(n,u))&diffabeqtri(45,n,v)))&w=(u+v)):5324 states - 35ms
+   (E u , v ((abeq45tri(n,u))&diffabeqtri(45,n,v)))&w=(u+v))):2841 states - 15ms
+Total computation time: 266ms.
+def abeq47tri "?msd_tri Eu,v $abeq46tri(n,u) & $diffabeqtri(46,n,v) & w=u+v":
+(abeq46tri(n,u))&diffabeqtri(46,n,v))):3655 states - 174ms
+ w=(u+v):149 states - 2ms
+  ((abeq46tri(n,u))&diffabeqtri(46,n,v)))&w=(u+v)):5366 states - 34ms
+   (E u , v ((abeq46tri(n,u))&diffabeqtri(46,n,v)))&w=(u+v))):2815 states - 14ms
+Total computation time: 274ms.
+def abeq48tri "?msd_tri Eu,v $abeq47tri(n,u) & $diffabeqtri(47,n,v) & w=u+v":
+(abeq47tri(n,u))&diffabeqtri(47,n,v))):3703 states - 163ms
+ w=(u+v):149 states - 1ms
+  ((abeq47tri(n,u))&diffabeqtri(47,n,v)))&w=(u+v)):5263 states - 34ms
+   (E u , v ((abeq47tri(n,u))&diffabeqtri(47,n,v)))&w=(u+v))):2887 states - 15ms
+Total computation time: 257ms.
+def abeq49tri "?msd_tri Eu,v $abeq48tri(n,u) & $diffabeqtri(48,n,v) & w=u+v":
+(abeq48tri(n,u))&diffabeqtri(48,n,v))):3638 states - 160ms
+ w=(u+v):149 states - 2ms
+  ((abeq48tri(n,u))&diffabeqtri(48,n,v)))&w=(u+v)):5218 states - 33ms
+   (E u , v ((abeq48tri(n,u))&diffabeqtri(48,n,v)))&w=(u+v))):2949 states - 14ms
+Total computation time: 246ms.
+def abeq50tri "?msd_tri Eu,v $abeq49tri(n,u) & $diffabeqtri(49,n,v) & w=u+v":
+(abeq49tri(n,u))&diffabeqtri(49,n,v))):3721 states - 164ms
+ w=(u+v):149 states - 1ms
+  ((abeq49tri(n,u))&diffabeqtri(49,n,v)))&w=(u+v)):5417 states - 36ms
+   (E u , v ((abeq49tri(n,u))&diffabeqtri(49,n,v)))&w=(u+v))):2992 states - 14ms
+Total computation time: 259ms.
+
+[Walnut]$ 

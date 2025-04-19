@@ -1,0 +1,491 @@
+---
+title: k-Abelian Complexity of Pell sequence from 1 to 5
+date: '2025-03-21'
+format:
+  html:
+    code-fold: false
+    embed-resources: true
+    toc: true
+    toc-location: left
+    number-sections: true
+    syntax-definitions: 
+        - walnut.xml
+  ipynb: default 
+execute:
+  cache: true
+  keep-ipynb: true
+  allow_errors: true
+jupyter: walnut
+---
+
+## Initial Numeration System Setup
+
+First we define the subsitution, its numeration system and its fixpoint sequence.
+
+```{walnut}
+%%python
+from licofage.kit import *
+import os
+setparams(True, True, os.environ["WALNUT_HOME"])
+
+s = subst('001/0')
+ns = address(s, "pell")
+ns.gen_ns()
+ns.gen_word_automaton()
+```
+
+Then we setup a factor comparison predicate in Walnut and a first factor occurence predicate.
+
+```{walnut}
+def cut "?msd_pell i<=u & j<=v & u+j=v+i & u<n+i & v<n+j":
+def feq_pell "?msd_pell ~(Eu,v $cut(i,j,n,u,v) & Pell[u]!=Pell[v])":
+eval comp_pell n "?msd_pell Aj $feq_pell(i,j,n) => i<=j":
+```
+
+
+From there we can define the boundary condition `bordercond`, as explained in Fici-Puzynina-2023 section 8.1.
+
+```{walnut}
+def bordercond "?msd_pell (k<=n => $feq_pell(i,j,k-1)) & (n<k => $feq_pell(i,j,n))":
+```
+
+## 1-abelian complexity
+
+Define the 1-block map of pell and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s1 = s
+ns1 = ns
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Pell.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns1.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s1, ns1.ns, **w)
+    (parikh - ns1).gen_dfa(f"pellb1p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 1-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_pell Ex,y $pellb1p0(i,x) & $pellb1p0(i+n,y) & z+x=y":
+def fac1 "?msd_pell Ex,y $pellb1p1(i,x) & $pellb1p1(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_pell Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_pell Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_pell Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_pell Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_pell1 "?msd_pell (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z))":
+```
+
+```{walnut}
+eval comp_pell1 n "?msd_pell Aj $abeq_pell1(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_pell1 msd_pell Comp_pell1
+```
+
+## 2-abelian complexity
+
+Define the 2-block map of pell and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s2 = block(s, 2)
+ns2 = address(s2, "pellb2")
+ns2.gen_ns()
+(ns-ns2).gen_dfa("conv_pell_pellb2")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond2 "?msd_pellb2 (?msd_pell Eii,jj,kk,nn 
+($conv_pell_pellb2(?msd_pell ii, ?msd_pellb2 i) & 
+$conv_pell_pellb2(?msd_pell jj, ?msd_pellb2 j) & 
+$conv_pell_pellb2(?msd_pell kk, ?msd_pellb2 k) & 
+$conv_pell_pellb2(?msd_pell nn, ?msd_pellb2 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Pellb2.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns2.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s2, ns2.ns, **w)
+    (parikh - ns2).gen_dfa(f"pellb2p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 2-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_pellb2 Ex,y $pellb2p0(i,x) & $pellb2p0(i+n,y) & z+x=y":
+def fac1 "?msd_pellb2 Ex,y $pellb2p1(i,x) & $pellb2p1(i+n,y) & z+x=y":
+def fac2 "?msd_pellb2 Ex,y $pellb2p2(i,x) & $pellb2p2(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_pellb2 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_pellb2 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_pellb2 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_pellb2 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_pellb2 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_pellb2 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_pellb2 "?msd_pellb2 $bordercond2(i,j,2,n+1) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z))":
+def abeq_pell2 "?msd_pell (n<1 & $feq_pell(i,j,n)) | (n>=1 & (?msd_pellb2 Eii,jj,nn ($conv_pell_pellb2(?msd_pell i, ?msd_pellb2 ii) & $conv_pell_pellb2(?msd_pell j, ?msd_pellb2 jj) & $conv_pell_pellb2(?msd_pell n, ?msd_pellb2 nn) & $abeq_pellb2(ii,jj,nn-1))))":
+```
+
+```{walnut}
+eval comp_pell2 n "?msd_pell Aj $abeq_pell2(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_pell2 msd_pell Comp_pell2
+```
+
+## 3-abelian complexity
+
+Define the 3-block map of pell and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s3 = block(s, 3)
+ns3 = address(s3, "pellb3")
+ns3.gen_ns()
+(ns-ns3).gen_dfa("conv_pell_pellb3")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond3 "?msd_pellb3 (?msd_pell Eii,jj,kk,nn 
+($conv_pell_pellb3(?msd_pell ii, ?msd_pellb3 i) & 
+$conv_pell_pellb3(?msd_pell jj, ?msd_pellb3 j) & 
+$conv_pell_pellb3(?msd_pell kk, ?msd_pellb3 k) & 
+$conv_pell_pellb3(?msd_pell nn, ?msd_pellb3 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Pellb3.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns3.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s3, ns3.ns, **w)
+    (parikh - ns3).gen_dfa(f"pellb3p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 3-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_pellb3 Ex,y $pellb3p0(i,x) & $pellb3p0(i+n,y) & z+x=y":
+def fac1 "?msd_pellb3 Ex,y $pellb3p1(i,x) & $pellb3p1(i+n,y) & z+x=y":
+def fac2 "?msd_pellb3 Ex,y $pellb3p2(i,x) & $pellb3p2(i+n,y) & z+x=y":
+def fac3 "?msd_pellb3 Ex,y $pellb3p3(i,x) & $pellb3p3(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_pellb3 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_pellb3 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_pellb3 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_pellb3 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_pellb3 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_pellb3 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_pellb3 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_pellb3 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_pellb3 "?msd_pellb3 $bordercond3(i,j,3,n+2) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z))":
+def abeq_pell3 "?msd_pell (n<2 & $feq_pell(i,j,n)) | (n>=2 & (?msd_pellb3 Eii,jj,nn ($conv_pell_pellb3(?msd_pell i, ?msd_pellb3 ii) & $conv_pell_pellb3(?msd_pell j, ?msd_pellb3 jj) & $conv_pell_pellb3(?msd_pell n, ?msd_pellb3 nn) & $abeq_pellb3(ii,jj,nn-2))))":
+```
+
+```{walnut}
+eval comp_pell3 n "?msd_pell Aj $abeq_pell3(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_pell3 msd_pell Comp_pell3
+```
+
+## 4-abelian complexity
+
+Define the 4-block map of pell and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s4 = block(s, 4)
+ns4 = address(s4, "pellb4")
+ns4.gen_ns()
+(ns-ns4).gen_dfa("conv_pell_pellb4")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond4 "?msd_pellb4 (?msd_pell Eii,jj,kk,nn 
+($conv_pell_pellb4(?msd_pell ii, ?msd_pellb4 i) & 
+$conv_pell_pellb4(?msd_pell jj, ?msd_pellb4 j) & 
+$conv_pell_pellb4(?msd_pell kk, ?msd_pellb4 k) & 
+$conv_pell_pellb4(?msd_pell nn, ?msd_pellb4 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Pellb4.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns4.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s4, ns4.ns, **w)
+    (parikh - ns4).gen_dfa(f"pellb4p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 4-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_pellb4 Ex,y $pellb4p0(i,x) & $pellb4p0(i+n,y) & z+x=y":
+def fac1 "?msd_pellb4 Ex,y $pellb4p1(i,x) & $pellb4p1(i+n,y) & z+x=y":
+def fac2 "?msd_pellb4 Ex,y $pellb4p2(i,x) & $pellb4p2(i+n,y) & z+x=y":
+def fac3 "?msd_pellb4 Ex,y $pellb4p3(i,x) & $pellb4p3(i+n,y) & z+x=y":
+def fac4 "?msd_pellb4 Ex,y $pellb4p4(i,x) & $pellb4p4(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_pellb4 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_pellb4 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_pellb4 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_pellb4 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_pellb4 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_pellb4 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_pellb4 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_pellb4 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_pellb4 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_pellb4 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_pellb4 "?msd_pellb4 $bordercond4(i,j,4,n+3) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z))":
+def abeq_pell4 "?msd_pell (n<3 & $feq_pell(i,j,n)) | (n>=3 & (?msd_pellb4 Eii,jj,nn ($conv_pell_pellb4(?msd_pell i, ?msd_pellb4 ii) & $conv_pell_pellb4(?msd_pell j, ?msd_pellb4 jj) & $conv_pell_pellb4(?msd_pell n, ?msd_pellb4 nn) & $abeq_pellb4(ii,jj,nn-3))))":
+```
+
+```{walnut}
+eval comp_pell4 n "?msd_pell Aj $abeq_pell4(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_pell4 msd_pell Comp_pell4
+```
+
+## 5-abelian complexity
+
+Define the 5-block map of pell and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s5 = block(s, 5)
+ns5 = address(s5, "pellb5")
+ns5.gen_ns()
+(ns-ns5).gen_dfa("conv_pell_pellb5")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond5 "?msd_pellb5 (?msd_pell Eii,jj,kk,nn 
+($conv_pell_pellb5(?msd_pell ii, ?msd_pellb5 i) & 
+$conv_pell_pellb5(?msd_pell jj, ?msd_pellb5 j) & 
+$conv_pell_pellb5(?msd_pell kk, ?msd_pellb5 k) & 
+$conv_pell_pellb5(?msd_pell nn, ?msd_pellb5 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Pellb5.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns5.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s5, ns5.ns, **w)
+    (parikh - ns5).gen_dfa(f"pellb5p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 5-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_pellb5 Ex,y $pellb5p0(i,x) & $pellb5p0(i+n,y) & z+x=y":
+def fac1 "?msd_pellb5 Ex,y $pellb5p1(i,x) & $pellb5p1(i+n,y) & z+x=y":
+def fac2 "?msd_pellb5 Ex,y $pellb5p2(i,x) & $pellb5p2(i+n,y) & z+x=y":
+def fac3 "?msd_pellb5 Ex,y $pellb5p3(i,x) & $pellb5p3(i+n,y) & z+x=y":
+def fac4 "?msd_pellb5 Ex,y $pellb5p4(i,x) & $pellb5p4(i+n,y) & z+x=y":
+def fac5 "?msd_pellb5 Ex,y $pellb5p5(i,x) & $pellb5p5(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_pellb5 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_pellb5 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_pellb5 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_pellb5 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_pellb5 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+def min5 "?msd_pellb5 Ei $fac5(i,n,x) & Aj,y $fac5(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_pellb5 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_pellb5 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_pellb5 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_pellb5 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_pellb5 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+def diff5 "?msd_pellb5 Ex,y $min5(n,x) & $fac5(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_pellb5 "?msd_pellb5 $bordercond5(i,j,5,n+4) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z)) & (Ez $diff5(i,n,z) &  $diff5(j,n,z))":
+def abeq_pell5 "?msd_pell (n<4 & $feq_pell(i,j,n)) | (n>=4 & (?msd_pellb5 Eii,jj,nn ($conv_pell_pellb5(?msd_pell i, ?msd_pellb5 ii) & $conv_pell_pellb5(?msd_pell j, ?msd_pellb5 jj) & $conv_pell_pellb5(?msd_pell n, ?msd_pellb5 nn) & $abeq_pellb5(ii,jj,nn-4))))":
+```
+
+```{walnut}
+eval comp_pell5 n "?msd_pell Aj $abeq_pell5(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_pell5 msd_pell Comp_pell5
+```
+## Check it out!
+
+
+```{walnut}
+%%python
+from itertools import product
+from ratser.walimp import from_walnut
+
+def valid(a, h, u):
+    cur=a
+    for c in u:
+        v = h[cur]
+        if c >= len(v):
+            return False
+        cur = v[c]
+    return True
+
+def enumrepr(a, h, k):
+    alpha=list(range(max(map(len,h.values()))))
+    for u in product(alpha, repeat=k):
+        if valid(a, h, u):
+            yield ''.join(map(str,u))
+
+l = []
+lbl = []
+for k in range(1,6):
+    lbl.append(str(k))
+    with open(P(os.environ["WALNUT_HOME"]) / P(f"Result/comp_pell{k}.mpl")) as f:
+            ser = from_walnut(f)
+            l.append(ser)
+
+(a,h)=s.subst()
+print(f"{'n':>4}", *[f"{x+'-ab(pell)':>15}" for x in lbl])
+print('-'*(4+16*len(lbl)))
+for (i, u) in enumerate(enumrepr(a, h, 8)):
+    print(f"{i:4}", *[ f"{int(s.value(u)):15}" for s in l ])
+```
+
+## Let's wrap it up!
+
+```{walnut}
+%%shell
+cd $WALNUT_HOME
+cat << EOF | tr '\n' '\0' | tar cvzf /tmp/abelian.tar.gz --null -T -
+Custom Bases/msd_pell.txt
+Custom Bases/msd_pell_addition.txt
+Word Automata Library/Pell.txt
+Automata Library/feq_pell.txt
+Result/comp_pell.mpl
+Word Automata Library/Comp_pell1.txt
+Result/comp_pell1.mpl
+Automata Library/abeq_pell1.txt
+Word Automata Library/Comp_pell2.txt
+Result/comp_pell2.mpl
+Automata Library/abeq_pell2.txt
+Word Automata Library/Comp_pell3.txt
+Result/comp_pell3.mpl
+Automata Library/abeq_pell3.txt
+Word Automata Library/Comp_pell4.txt
+Result/comp_pell4.mpl
+Automata Library/abeq_pell4.txt
+Word Automata Library/Comp_pell5.txt
+Result/comp_pell5.mpl
+Automata Library/abeq_pell5.txt
+EOF
+```
+
+
+ {{< downloadthis /tmp/abelian.tar.gz dname="abelian.tar" >}}
+

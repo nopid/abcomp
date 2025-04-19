@@ -1,0 +1,767 @@
+---
+title: k-Abelian Complexity of Fibonacci sequence from 1 to 8
+date: '2025-02-23'
+format:
+  html:
+    code-fold: false
+    embed-resources: true
+    toc: true
+    toc-location: left
+    number-sections: true
+    syntax-definitions: 
+        - walnut.xml
+  ipynb: default 
+execute:
+  cache: true
+  keep-ipynb: true
+  allow_errors: true
+jupyter: walnut
+---
+
+## Initial Numeration System Setup
+
+First we define the subsitution, its numeration system and its fixpoint sequence.
+
+```{walnut}
+%%python
+from licofage.kit import *
+import os
+setparams(True, True, os.environ["WALNUT_HOME"])
+
+s = subst('01/0')
+ns = address(s, "fib")
+ns.gen_ns()
+ns.gen_word_automaton()
+```
+
+Then we setup a factor comparison predicate in Walnut and a first factor occurence predicate.
+
+```{walnut}
+def cut "?msd_fib i<=u & j<=v & u+j=v+i & u<n+i & v<n+j":
+def feq_fib "?msd_fib ~(Eu,v $cut(i,j,n,u,v) & Fib[u]!=Fib[v])":
+eval comp_fib n "?msd_fib Aj $feq_fib(i,j,n) => i<=j":
+```
+
+
+From there we can define the boundary condition `bordercond`, as explained in Fici-Puzynina-2023 section 8.1.
+
+```{walnut}
+def bordercond "?msd_fib (k<=n => $feq_fib(i,j,k-1)) & (n<k => $feq_fib(i,j,n))":
+```
+
+## 1-abelian complexity
+
+Define the 1-block map of fib and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s1 = s
+ns1 = ns
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Fib.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns1.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s1, ns1.ns, **w)
+    (parikh - ns1).gen_dfa(f"fibb1p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 1-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_fib Ex,y $fibb1p0(i,x) & $fibb1p0(i+n,y) & z+x=y":
+def fac1 "?msd_fib Ex,y $fibb1p1(i,x) & $fibb1p1(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_fib Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_fib Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_fib Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_fib Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_fib1 "?msd_fib (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z))":
+```
+
+```{walnut}
+eval comp_fib1 n "?msd_fib Aj $abeq_fib1(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_fib1 msd_fib Comp_fib1
+```
+
+## 2-abelian complexity
+
+Define the 2-block map of fib and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s2 = block(s, 2)
+ns2 = address(s2, "fibb2")
+ns2.gen_ns()
+(ns-ns2).gen_dfa("conv_fib_fibb2")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond2 "?msd_fibb2 (?msd_fib Eii,jj,kk,nn 
+($conv_fib_fibb2(?msd_fib ii, ?msd_fibb2 i) & 
+$conv_fib_fibb2(?msd_fib jj, ?msd_fibb2 j) & 
+$conv_fib_fibb2(?msd_fib kk, ?msd_fibb2 k) & 
+$conv_fib_fibb2(?msd_fib nn, ?msd_fibb2 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Fibb2.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns2.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s2, ns2.ns, **w)
+    (parikh - ns2).gen_dfa(f"fibb2p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 2-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_fibb2 Ex,y $fibb2p0(i,x) & $fibb2p0(i+n,y) & z+x=y":
+def fac1 "?msd_fibb2 Ex,y $fibb2p1(i,x) & $fibb2p1(i+n,y) & z+x=y":
+def fac2 "?msd_fibb2 Ex,y $fibb2p2(i,x) & $fibb2p2(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_fibb2 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_fibb2 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_fibb2 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_fibb2 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_fibb2 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_fibb2 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_fibb2 "?msd_fibb2 $bordercond2(i,j,2,n+1) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z))":
+def abeq_fib2 "?msd_fib (n<1 & $feq_fib(i,j,n)) | (n>=1 & (?msd_fibb2 Eii,jj,nn ($conv_fib_fibb2(?msd_fib i, ?msd_fibb2 ii) & $conv_fib_fibb2(?msd_fib j, ?msd_fibb2 jj) & $conv_fib_fibb2(?msd_fib n, ?msd_fibb2 nn) & $abeq_fibb2(ii,jj,nn-1))))":
+```
+
+```{walnut}
+eval comp_fib2 n "?msd_fib Aj $abeq_fib2(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_fib2 msd_fib Comp_fib2
+```
+
+## 3-abelian complexity
+
+Define the 3-block map of fib and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s3 = block(s, 3)
+ns3 = address(s3, "fibb3")
+ns3.gen_ns()
+(ns-ns3).gen_dfa("conv_fib_fibb3")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond3 "?msd_fibb3 (?msd_fib Eii,jj,kk,nn 
+($conv_fib_fibb3(?msd_fib ii, ?msd_fibb3 i) & 
+$conv_fib_fibb3(?msd_fib jj, ?msd_fibb3 j) & 
+$conv_fib_fibb3(?msd_fib kk, ?msd_fibb3 k) & 
+$conv_fib_fibb3(?msd_fib nn, ?msd_fibb3 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Fibb3.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns3.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s3, ns3.ns, **w)
+    (parikh - ns3).gen_dfa(f"fibb3p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 3-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_fibb3 Ex,y $fibb3p0(i,x) & $fibb3p0(i+n,y) & z+x=y":
+def fac1 "?msd_fibb3 Ex,y $fibb3p1(i,x) & $fibb3p1(i+n,y) & z+x=y":
+def fac2 "?msd_fibb3 Ex,y $fibb3p2(i,x) & $fibb3p2(i+n,y) & z+x=y":
+def fac3 "?msd_fibb3 Ex,y $fibb3p3(i,x) & $fibb3p3(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_fibb3 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_fibb3 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_fibb3 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_fibb3 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_fibb3 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_fibb3 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_fibb3 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_fibb3 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_fibb3 "?msd_fibb3 $bordercond3(i,j,3,n+2) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z))":
+def abeq_fib3 "?msd_fib (n<2 & $feq_fib(i,j,n)) | (n>=2 & (?msd_fibb3 Eii,jj,nn ($conv_fib_fibb3(?msd_fib i, ?msd_fibb3 ii) & $conv_fib_fibb3(?msd_fib j, ?msd_fibb3 jj) & $conv_fib_fibb3(?msd_fib n, ?msd_fibb3 nn) & $abeq_fibb3(ii,jj,nn-2))))":
+```
+
+```{walnut}
+eval comp_fib3 n "?msd_fib Aj $abeq_fib3(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_fib3 msd_fib Comp_fib3
+```
+
+## 4-abelian complexity
+
+Define the 4-block map of fib and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s4 = block(s, 4)
+ns4 = address(s4, "fibb4")
+ns4.gen_ns()
+(ns-ns4).gen_dfa("conv_fib_fibb4")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond4 "?msd_fibb4 (?msd_fib Eii,jj,kk,nn 
+($conv_fib_fibb4(?msd_fib ii, ?msd_fibb4 i) & 
+$conv_fib_fibb4(?msd_fib jj, ?msd_fibb4 j) & 
+$conv_fib_fibb4(?msd_fib kk, ?msd_fibb4 k) & 
+$conv_fib_fibb4(?msd_fib nn, ?msd_fibb4 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Fibb4.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns4.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s4, ns4.ns, **w)
+    (parikh - ns4).gen_dfa(f"fibb4p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 4-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_fibb4 Ex,y $fibb4p0(i,x) & $fibb4p0(i+n,y) & z+x=y":
+def fac1 "?msd_fibb4 Ex,y $fibb4p1(i,x) & $fibb4p1(i+n,y) & z+x=y":
+def fac2 "?msd_fibb4 Ex,y $fibb4p2(i,x) & $fibb4p2(i+n,y) & z+x=y":
+def fac3 "?msd_fibb4 Ex,y $fibb4p3(i,x) & $fibb4p3(i+n,y) & z+x=y":
+def fac4 "?msd_fibb4 Ex,y $fibb4p4(i,x) & $fibb4p4(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_fibb4 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_fibb4 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_fibb4 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_fibb4 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_fibb4 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_fibb4 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_fibb4 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_fibb4 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_fibb4 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_fibb4 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_fibb4 "?msd_fibb4 $bordercond4(i,j,4,n+3) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z))":
+def abeq_fib4 "?msd_fib (n<3 & $feq_fib(i,j,n)) | (n>=3 & (?msd_fibb4 Eii,jj,nn ($conv_fib_fibb4(?msd_fib i, ?msd_fibb4 ii) & $conv_fib_fibb4(?msd_fib j, ?msd_fibb4 jj) & $conv_fib_fibb4(?msd_fib n, ?msd_fibb4 nn) & $abeq_fibb4(ii,jj,nn-3))))":
+```
+
+```{walnut}
+eval comp_fib4 n "?msd_fib Aj $abeq_fib4(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_fib4 msd_fib Comp_fib4
+```
+
+## 5-abelian complexity
+
+Define the 5-block map of fib and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s5 = block(s, 5)
+ns5 = address(s5, "fibb5")
+ns5.gen_ns()
+(ns-ns5).gen_dfa("conv_fib_fibb5")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond5 "?msd_fibb5 (?msd_fib Eii,jj,kk,nn 
+($conv_fib_fibb5(?msd_fib ii, ?msd_fibb5 i) & 
+$conv_fib_fibb5(?msd_fib jj, ?msd_fibb5 j) & 
+$conv_fib_fibb5(?msd_fib kk, ?msd_fibb5 k) & 
+$conv_fib_fibb5(?msd_fib nn, ?msd_fibb5 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Fibb5.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns5.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s5, ns5.ns, **w)
+    (parikh - ns5).gen_dfa(f"fibb5p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 5-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_fibb5 Ex,y $fibb5p0(i,x) & $fibb5p0(i+n,y) & z+x=y":
+def fac1 "?msd_fibb5 Ex,y $fibb5p1(i,x) & $fibb5p1(i+n,y) & z+x=y":
+def fac2 "?msd_fibb5 Ex,y $fibb5p2(i,x) & $fibb5p2(i+n,y) & z+x=y":
+def fac3 "?msd_fibb5 Ex,y $fibb5p3(i,x) & $fibb5p3(i+n,y) & z+x=y":
+def fac4 "?msd_fibb5 Ex,y $fibb5p4(i,x) & $fibb5p4(i+n,y) & z+x=y":
+def fac5 "?msd_fibb5 Ex,y $fibb5p5(i,x) & $fibb5p5(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_fibb5 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_fibb5 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_fibb5 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_fibb5 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_fibb5 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+def min5 "?msd_fibb5 Ei $fac5(i,n,x) & Aj,y $fac5(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_fibb5 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_fibb5 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_fibb5 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_fibb5 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_fibb5 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+def diff5 "?msd_fibb5 Ex,y $min5(n,x) & $fac5(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_fibb5 "?msd_fibb5 $bordercond5(i,j,5,n+4) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z)) & (Ez $diff5(i,n,z) &  $diff5(j,n,z))":
+def abeq_fib5 "?msd_fib (n<4 & $feq_fib(i,j,n)) | (n>=4 & (?msd_fibb5 Eii,jj,nn ($conv_fib_fibb5(?msd_fib i, ?msd_fibb5 ii) & $conv_fib_fibb5(?msd_fib j, ?msd_fibb5 jj) & $conv_fib_fibb5(?msd_fib n, ?msd_fibb5 nn) & $abeq_fibb5(ii,jj,nn-4))))":
+```
+
+```{walnut}
+eval comp_fib5 n "?msd_fib Aj $abeq_fib5(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_fib5 msd_fib Comp_fib5
+```
+
+## 6-abelian complexity
+
+Define the 6-block map of fib and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s6 = block(s, 6)
+ns6 = address(s6, "fibb6")
+ns6.gen_ns()
+(ns-ns6).gen_dfa("conv_fib_fibb6")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond6 "?msd_fibb6 (?msd_fib Eii,jj,kk,nn 
+($conv_fib_fibb6(?msd_fib ii, ?msd_fibb6 i) & 
+$conv_fib_fibb6(?msd_fib jj, ?msd_fibb6 j) & 
+$conv_fib_fibb6(?msd_fib kk, ?msd_fibb6 k) & 
+$conv_fib_fibb6(?msd_fib nn, ?msd_fibb6 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Fibb6.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns6.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s6, ns6.ns, **w)
+    (parikh - ns6).gen_dfa(f"fibb6p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 6-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_fibb6 Ex,y $fibb6p0(i,x) & $fibb6p0(i+n,y) & z+x=y":
+def fac1 "?msd_fibb6 Ex,y $fibb6p1(i,x) & $fibb6p1(i+n,y) & z+x=y":
+def fac2 "?msd_fibb6 Ex,y $fibb6p2(i,x) & $fibb6p2(i+n,y) & z+x=y":
+def fac3 "?msd_fibb6 Ex,y $fibb6p3(i,x) & $fibb6p3(i+n,y) & z+x=y":
+def fac4 "?msd_fibb6 Ex,y $fibb6p4(i,x) & $fibb6p4(i+n,y) & z+x=y":
+def fac5 "?msd_fibb6 Ex,y $fibb6p5(i,x) & $fibb6p5(i+n,y) & z+x=y":
+def fac6 "?msd_fibb6 Ex,y $fibb6p6(i,x) & $fibb6p6(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_fibb6 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_fibb6 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_fibb6 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_fibb6 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_fibb6 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+def min5 "?msd_fibb6 Ei $fac5(i,n,x) & Aj,y $fac5(j,n,y) => y>=x":
+def min6 "?msd_fibb6 Ei $fac6(i,n,x) & Aj,y $fac6(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_fibb6 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_fibb6 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_fibb6 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_fibb6 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_fibb6 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+def diff5 "?msd_fibb6 Ex,y $min5(n,x) & $fac5(i,n,y) & z+x=y":
+def diff6 "?msd_fibb6 Ex,y $min6(n,x) & $fac6(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_fibb6 "?msd_fibb6 $bordercond6(i,j,6,n+5) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z)) & (Ez $diff5(i,n,z) &  $diff5(j,n,z)) & (Ez $diff6(i,n,z) &  $diff6(j,n,z))":
+def abeq_fib6 "?msd_fib (n<5 & $feq_fib(i,j,n)) | (n>=5 & (?msd_fibb6 Eii,jj,nn ($conv_fib_fibb6(?msd_fib i, ?msd_fibb6 ii) & $conv_fib_fibb6(?msd_fib j, ?msd_fibb6 jj) & $conv_fib_fibb6(?msd_fib n, ?msd_fibb6 nn) & $abeq_fibb6(ii,jj,nn-5))))":
+```
+
+```{walnut}
+eval comp_fib6 n "?msd_fib Aj $abeq_fib6(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_fib6 msd_fib Comp_fib6
+```
+
+## 7-abelian complexity
+
+Define the 7-block map of fib and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s7 = block(s, 7)
+ns7 = address(s7, "fibb7")
+ns7.gen_ns()
+(ns-ns7).gen_dfa("conv_fib_fibb7")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond7 "?msd_fibb7 (?msd_fib Eii,jj,kk,nn 
+($conv_fib_fibb7(?msd_fib ii, ?msd_fibb7 i) & 
+$conv_fib_fibb7(?msd_fib jj, ?msd_fibb7 j) & 
+$conv_fib_fibb7(?msd_fib kk, ?msd_fibb7 k) & 
+$conv_fib_fibb7(?msd_fib nn, ?msd_fibb7 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Fibb7.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns7.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s7, ns7.ns, **w)
+    (parikh - ns7).gen_dfa(f"fibb7p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 7-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_fibb7 Ex,y $fibb7p0(i,x) & $fibb7p0(i+n,y) & z+x=y":
+def fac1 "?msd_fibb7 Ex,y $fibb7p1(i,x) & $fibb7p1(i+n,y) & z+x=y":
+def fac2 "?msd_fibb7 Ex,y $fibb7p2(i,x) & $fibb7p2(i+n,y) & z+x=y":
+def fac3 "?msd_fibb7 Ex,y $fibb7p3(i,x) & $fibb7p3(i+n,y) & z+x=y":
+def fac4 "?msd_fibb7 Ex,y $fibb7p4(i,x) & $fibb7p4(i+n,y) & z+x=y":
+def fac5 "?msd_fibb7 Ex,y $fibb7p5(i,x) & $fibb7p5(i+n,y) & z+x=y":
+def fac6 "?msd_fibb7 Ex,y $fibb7p6(i,x) & $fibb7p6(i+n,y) & z+x=y":
+def fac7 "?msd_fibb7 Ex,y $fibb7p7(i,x) & $fibb7p7(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_fibb7 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_fibb7 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_fibb7 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_fibb7 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_fibb7 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+def min5 "?msd_fibb7 Ei $fac5(i,n,x) & Aj,y $fac5(j,n,y) => y>=x":
+def min6 "?msd_fibb7 Ei $fac6(i,n,x) & Aj,y $fac6(j,n,y) => y>=x":
+def min7 "?msd_fibb7 Ei $fac7(i,n,x) & Aj,y $fac7(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_fibb7 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_fibb7 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_fibb7 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_fibb7 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_fibb7 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+def diff5 "?msd_fibb7 Ex,y $min5(n,x) & $fac5(i,n,y) & z+x=y":
+def diff6 "?msd_fibb7 Ex,y $min6(n,x) & $fac6(i,n,y) & z+x=y":
+def diff7 "?msd_fibb7 Ex,y $min7(n,x) & $fac7(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_fibb7 "?msd_fibb7 $bordercond7(i,j,7,n+6) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z)) & (Ez $diff5(i,n,z) &  $diff5(j,n,z)) & (Ez $diff6(i,n,z) &  $diff6(j,n,z)) & (Ez $diff7(i,n,z) &  $diff7(j,n,z))":
+def abeq_fib7 "?msd_fib (n<6 & $feq_fib(i,j,n)) | (n>=6 & (?msd_fibb7 Eii,jj,nn ($conv_fib_fibb7(?msd_fib i, ?msd_fibb7 ii) & $conv_fib_fibb7(?msd_fib j, ?msd_fibb7 jj) & $conv_fib_fibb7(?msd_fib n, ?msd_fibb7 nn) & $abeq_fibb7(ii,jj,nn-6))))":
+```
+
+```{walnut}
+eval comp_fib7 n "?msd_fib Aj $abeq_fib7(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_fib7 msd_fib Comp_fib7
+```
+
+## 8-abelian complexity
+
+Define the 8-block map of fib and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s8 = block(s, 8)
+ns8 = address(s8, "fibb8")
+ns8.gen_ns()
+(ns-ns8).gen_dfa("conv_fib_fibb8")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond8 "?msd_fibb8 (?msd_fib Eii,jj,kk,nn 
+($conv_fib_fibb8(?msd_fib ii, ?msd_fibb8 i) & 
+$conv_fib_fibb8(?msd_fib jj, ?msd_fibb8 j) & 
+$conv_fib_fibb8(?msd_fib kk, ?msd_fibb8 k) & 
+$conv_fib_fibb8(?msd_fib nn, ?msd_fibb8 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Fibb8.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns8.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s8, ns8.ns, **w)
+    (parikh - ns8).gen_dfa(f"fibb8p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 8-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_fibb8 Ex,y $fibb8p0(i,x) & $fibb8p0(i+n,y) & z+x=y":
+def fac1 "?msd_fibb8 Ex,y $fibb8p1(i,x) & $fibb8p1(i+n,y) & z+x=y":
+def fac2 "?msd_fibb8 Ex,y $fibb8p2(i,x) & $fibb8p2(i+n,y) & z+x=y":
+def fac3 "?msd_fibb8 Ex,y $fibb8p3(i,x) & $fibb8p3(i+n,y) & z+x=y":
+def fac4 "?msd_fibb8 Ex,y $fibb8p4(i,x) & $fibb8p4(i+n,y) & z+x=y":
+def fac5 "?msd_fibb8 Ex,y $fibb8p5(i,x) & $fibb8p5(i+n,y) & z+x=y":
+def fac6 "?msd_fibb8 Ex,y $fibb8p6(i,x) & $fibb8p6(i+n,y) & z+x=y":
+def fac7 "?msd_fibb8 Ex,y $fibb8p7(i,x) & $fibb8p7(i+n,y) & z+x=y":
+def fac8 "?msd_fibb8 Ex,y $fibb8p8(i,x) & $fibb8p8(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_fibb8 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_fibb8 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_fibb8 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_fibb8 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_fibb8 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+def min5 "?msd_fibb8 Ei $fac5(i,n,x) & Aj,y $fac5(j,n,y) => y>=x":
+def min6 "?msd_fibb8 Ei $fac6(i,n,x) & Aj,y $fac6(j,n,y) => y>=x":
+def min7 "?msd_fibb8 Ei $fac7(i,n,x) & Aj,y $fac7(j,n,y) => y>=x":
+def min8 "?msd_fibb8 Ei $fac8(i,n,x) & Aj,y $fac8(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_fibb8 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_fibb8 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_fibb8 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_fibb8 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_fibb8 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+def diff5 "?msd_fibb8 Ex,y $min5(n,x) & $fac5(i,n,y) & z+x=y":
+def diff6 "?msd_fibb8 Ex,y $min6(n,x) & $fac6(i,n,y) & z+x=y":
+def diff7 "?msd_fibb8 Ex,y $min7(n,x) & $fac7(i,n,y) & z+x=y":
+def diff8 "?msd_fibb8 Ex,y $min8(n,x) & $fac8(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_fibb8 "?msd_fibb8 $bordercond8(i,j,8,n+7) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z)) & (Ez $diff5(i,n,z) &  $diff5(j,n,z)) & (Ez $diff6(i,n,z) &  $diff6(j,n,z)) & (Ez $diff7(i,n,z) &  $diff7(j,n,z)) & (Ez $diff8(i,n,z) &  $diff8(j,n,z))":
+def abeq_fib8 "?msd_fib (n<7 & $feq_fib(i,j,n)) | (n>=7 & (?msd_fibb8 Eii,jj,nn ($conv_fib_fibb8(?msd_fib i, ?msd_fibb8 ii) & $conv_fib_fibb8(?msd_fib j, ?msd_fibb8 jj) & $conv_fib_fibb8(?msd_fib n, ?msd_fibb8 nn) & $abeq_fibb8(ii,jj,nn-7))))":
+```
+
+```{walnut}
+eval comp_fib8 n "?msd_fib Aj $abeq_fib8(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_fib8 msd_fib Comp_fib8
+```
+## Check it out!
+
+
+```{walnut}
+%%python
+from itertools import product
+from ratser.walimp import from_walnut
+
+def valid(a, h, u):
+    cur=a
+    for c in u:
+        v = h[cur]
+        if c >= len(v):
+            return False
+        cur = v[c]
+    return True
+
+def enumrepr(a, h, k):
+    alpha=list(range(max(map(len,h.values()))))
+    for u in product(alpha, repeat=k):
+        if valid(a, h, u):
+            yield ''.join(map(str,u))
+
+l = []
+lbl = []
+for k in range(1,9):
+    lbl.append(str(k))
+    with open(P(os.environ["WALNUT_HOME"]) / P(f"Result/comp_fib{k}.mpl")) as f:
+            ser = from_walnut(f)
+            l.append(ser)
+
+(a,h)=s.subst()
+print(f"{'n':>4}", *[f"{x+'-ab(fib)':>15}" for x in lbl])
+print('-'*(4+16*len(lbl)))
+for (i, u) in enumerate(enumrepr(a, h, 8)):
+    print(f"{i:4}", *[ f"{int(s.value(u)):15}" for s in l ])
+```
+
+## Let's wrap it up!
+
+```{walnut}
+%%shell
+cd $WALNUT_HOME
+cat << EOF | tr '\n' '\0' | tar cvzf /tmp/abelian.tar.gz --null -T -
+Custom Bases/msd_fib.txt
+Custom Bases/msd_fib_addition.txt
+Word Automata Library/Fib.txt
+Automata Library/feq_fib.txt
+Result/comp_fib.mpl
+Word Automata Library/Comp_fib1.txt
+Result/comp_fib1.mpl
+Automata Library/abeq_fib1.txt
+Word Automata Library/Comp_fib2.txt
+Result/comp_fib2.mpl
+Automata Library/abeq_fib2.txt
+Word Automata Library/Comp_fib3.txt
+Result/comp_fib3.mpl
+Automata Library/abeq_fib3.txt
+Word Automata Library/Comp_fib4.txt
+Result/comp_fib4.mpl
+Automata Library/abeq_fib4.txt
+Word Automata Library/Comp_fib5.txt
+Result/comp_fib5.mpl
+Automata Library/abeq_fib5.txt
+Word Automata Library/Comp_fib6.txt
+Result/comp_fib6.mpl
+Automata Library/abeq_fib6.txt
+Word Automata Library/Comp_fib7.txt
+Result/comp_fib7.mpl
+Automata Library/abeq_fib7.txt
+Word Automata Library/Comp_fib8.txt
+Result/comp_fib8.mpl
+Automata Library/abeq_fib8.txt
+EOF
+```
+
+
+ {{< downloadthis /tmp/abelian.tar.gz dname="abelian.tar" >}}
+

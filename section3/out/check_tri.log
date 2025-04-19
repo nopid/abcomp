@@ -1,0 +1,128 @@
+Welcome to Walnut! Type "help;" to see all available commands.
+
+[Walnut]$ eval init "?msd_tri Ai,j1,j2,k Dequitri[i][j1][j2][k][0]=@-1 | Dequitri[i][j1][j2][k][0]=@0 | Dequitri[i][j1][j2][k][0]=@1":
+computed ~:1 states - 11ms
+Dequitri[i][j1][j2][k][0]=@-1:117 states - 24284ms
+ Dequitri[i][j1][j2][k][0]=@0:195 states - 49812ms
+  (Dequitri[i][j1][j2][k][0]=@-1|Dequitri[i][j1][j2][k][0]=@0):230 states - 18ms
+   Dequitri[i][j1][j2][k][0]=@1:117 states - 27263ms
+    ((Dequitri[i][j1][j2][k][0]=@-1|Dequitri[i][j1][j2][k][0]=@0)|Dequitri[i][j1][j2][k][0]=@1):81 states - 8ms
+     (A i , j1 , j2 , k ((Dequitri[i][j1][j2][k][0]=@-1|Dequitri[i][j1][j2][k][0]=@0)|Dequitri[i][j1][j2][k][0]=@1)):1 states - 9ms
+Total computation time: 101415ms.
+____
+TRUE
+eval initXX "?msd_tri Ai,j1,j2,k ($feq_tri(i,j1,k) <=> $feq_tri(i,j2,k)) <=> Dequitri[i][j1][j2][k][0]=@0":
+(feq_tri(i,j1,k))<=>feq_tri(i,j2,k))):307 states - 23ms
+ Dequitri[i][j1][j2][k][0]=@0:195 states - 50962ms
+  ((feq_tri(i,j1,k))<=>feq_tri(i,j2,k)))<=>Dequitri[i][j1][j2][k][0]=@0):81 states - 8ms
+   (A i , j1 , j2 , k ((feq_tri(i,j1,k))<=>feq_tri(i,j2,k)))<=>Dequitri[i][j1][j2][k][0]=@0)):1 states - 4ms
+Total computation time: 51002ms.
+____
+TRUE
+eval initTF "?msd_tri Ai,j1,j2,k ($feq_tri(i,j1,k) & ~$feq_tri(i,j2,k)) <=> Dequitri[i][j1][j2][k][0]=@1":
+~feq_tri(i,j2,k)):63 states - 2ms
+ (feq_tri(i,j1,k))&~feq_tri(i,j2,k))):117 states - 3ms
+  Dequitri[i][j1][j2][k][0]=@1:117 states - 25623ms
+   ((feq_tri(i,j1,k))&~feq_tri(i,j2,k)))<=>Dequitri[i][j1][j2][k][0]=@1):81 states - 9ms
+    (A i , j1 , j2 , k ((feq_tri(i,j1,k))&~feq_tri(i,j2,k)))<=>Dequitri[i][j1][j2][k][0]=@1)):1 states - 5ms
+Total computation time: 25642ms.
+____
+TRUE
+eval initFT "?msd_tri Ai,j1,j2,k (~$feq_tri(i,j1,k) & $feq_tri(i,j2,k)) <=> Dequitri[i][j1][j2][k][0]=@-1":
+~feq_tri(i,j1,k)):63 states - 2ms
+ (~feq_tri(i,j1,k))&feq_tri(i,j2,k))):117 states - 1ms
+  Dequitri[i][j1][j2][k][0]=@-1:117 states - 27930ms
+   ((~feq_tri(i,j1,k))&feq_tri(i,j2,k)))<=>Dequitri[i][j1][j2][k][0]=@-1):81 states - 3ms
+    (A i , j1 , j2 , k ((~feq_tri(i,j1,k))&feq_tri(i,j2,k)))<=>Dequitri[i][j1][j2][k][0]=@-1)):1 states - 5ms
+Total computation time: 27942ms.
+____
+TRUE
+def increase "?msd_tri (Dequitri[i][j1][j2][k][n]=@-2 & Dequitri[i][j1][j2][k][n+1]=@-1) | (Dequitri[i][j1][j2][k][n]=@-1 & Dequitri[i][j1][j2][k][n+1]=@0) | (Dequitri[i][j1][j2][k][n]=@0 & Dequitri[i][j1][j2][k][n+1]=@1) | (Dequitri[i][j1][j2][k][n]=@1 & Dequitri[i][j1][j2][k][n+1]=@2)":
+Dequitri[i][j1][j2][k][n]=@-2:86743 states - 16065ms
+computed ~:1 states - 1ms
+computed ~:2 states - 1ms
+ Dequitri[i][j1][j2][k][(n+1)]=@-1:341181 states - 83710ms
+  (Dequitri[i][j1][j2][k][n]=@-2&Dequitri[i][j1][j2][k][(n+1)]=@-1):34683 states - 4349ms
+   Dequitri[i][j1][j2][k][n]=@-1:330428 states - 34892ms
+    Dequitri[i][j1][j2][k][(n+1)]=@0:497910 states - 177365ms
+     (Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@0):93295 states - 16302ms
+      ((Dequitri[i][j1][j2][k][n]=@-2&Dequitri[i][j1][j2][k][(n+1)]=@-1)|(Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@0)):88871 states - 14009ms
+       Dequitri[i][j1][j2][k][n]=@0:487964 states - 79879ms
+        Dequitri[i][j1][j2][k][(n+1)]=@1:341181 states - 82476ms
+         (Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@1):92881 states - 17089ms
+          (((Dequitri[i][j1][j2][k][n]=@-2&Dequitri[i][j1][j2][k][(n+1)]=@-1)|(Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@0))|(Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@1)):83900 states - 15986ms
+           Dequitri[i][j1][j2][k][n]=@1:330428 states - 36905ms
+            Dequitri[i][j1][j2][k][(n+1)]=@2:91287 states - 25572ms
+             (Dequitri[i][j1][j2][k][n]=@1&Dequitri[i][j1][j2][k][(n+1)]=@2):34913 states - 4423ms
+              ((((Dequitri[i][j1][j2][k][n]=@-2&Dequitri[i][j1][j2][k][(n+1)]=@-1)|(Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@0))|(Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@1))|(Dequitri[i][j1][j2][k][n]=@1&Dequitri[i][j1][j2][k][(n+1)]=@2)):55119 states - 10174ms
+Total computation time: 619203ms.
+def decrease "?msd_tri (Dequitri[i][j1][j2][k][n]=@-1 & Dequitri[i][j1][j2][k][n+1]=@-2) | (Dequitri[i][j1][j2][k][n]=@0 & Dequitri[i][j1][j2][k][n+1]=@-1) | (Dequitri[i][j1][j2][k][n]=@1 & Dequitri[i][j1][j2][k][n+1]=@0) | (Dequitri[i][j1][j2][k][n]=@2 & Dequitri[i][j1][j2][k][n+1]=@1)":
+Dequitri[i][j1][j2][k][n]=@-1:330428 states - 37472ms
+ Dequitri[i][j1][j2][k][(n+1)]=@-2:91287 states - 23889ms
+  (Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@-2):34913 states - 4431ms
+   Dequitri[i][j1][j2][k][n]=@0:487964 states - 79955ms
+    Dequitri[i][j1][j2][k][(n+1)]=@-1:341181 states - 82334ms
+     (Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@-1):92881 states - 17561ms
+      ((Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@-2)|(Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@-1)):87840 states - 14869ms
+       Dequitri[i][j1][j2][k][n]=@1:330428 states - 35497ms
+        Dequitri[i][j1][j2][k][(n+1)]=@0:497910 states - 177855ms
+         (Dequitri[i][j1][j2][k][n]=@1&Dequitri[i][j1][j2][k][(n+1)]=@0):93295 states - 16745ms
+          (((Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@-2)|(Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@-1))|(Dequitri[i][j1][j2][k][n]=@1&Dequitri[i][j1][j2][k][(n+1)]=@0)):82916 states - 17276ms
+           Dequitri[i][j1][j2][k][n]=@2:86743 states - 14506ms
+            Dequitri[i][j1][j2][k][(n+1)]=@1:341181 states - 78804ms
+             (Dequitri[i][j1][j2][k][n]=@2&Dequitri[i][j1][j2][k][(n+1)]=@1):34683 states - 4037ms
+              ((((Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@-2)|(Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@-1))|(Dequitri[i][j1][j2][k][n]=@1&Dequitri[i][j1][j2][k][(n+1)]=@0))|(Dequitri[i][j1][j2][k][n]=@2&Dequitri[i][j1][j2][k][(n+1)]=@1)):55119 states - 10105ms
+Total computation time: 615342ms.
+def constant "?msd_tri (Dequitri[i][j1][j2][k][n]=@-2 & Dequitri[i][j1][j2][k][n+1]=@-2) | (Dequitri[i][j1][j2][k][n]=@-1 & Dequitri[i][j1][j2][k][n+1]=@-1) | (Dequitri[i][j1][j2][k][n]=@0 & Dequitri[i][j1][j2][k][n+1]=@0) | (Dequitri[i][j1][j2][k][n]=@1 & Dequitri[i][j1][j2][k][n+1]=@1) | (Dequitri[i][j1][j2][k][n]=@2 & Dequitri[i][j1][j2][k][n+1]=@2)":
+Dequitri[i][j1][j2][k][n]=@-2:86743 states - 15029ms
+ Dequitri[i][j1][j2][k][(n+1)]=@-2:91287 states - 22517ms
+  (Dequitri[i][j1][j2][k][n]=@-2&Dequitri[i][j1][j2][k][(n+1)]=@-2):86743 states - 2397ms
+   Dequitri[i][j1][j2][k][n]=@-1:330428 states - 35944ms
+    Dequitri[i][j1][j2][k][(n+1)]=@-1:341181 states - 80763ms
+     (Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@-1):330428 states - 15138ms
+      ((Dequitri[i][j1][j2][k][n]=@-2&Dequitri[i][j1][j2][k][(n+1)]=@-2)|(Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@-1)):320932 states - 86779ms
+       Dequitri[i][j1][j2][k][n]=@0:487964 states - 79410ms
+        Dequitri[i][j1][j2][k][(n+1)]=@0:497910 states - 178160ms
+         (Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@0):490132 states - 38541ms
+          (((Dequitri[i][j1][j2][k][n]=@-2&Dequitri[i][j1][j2][k][(n+1)]=@-2)|(Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@-1))|(Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@0)):427622 states - 169390ms
+           Dequitri[i][j1][j2][k][n]=@1:330428 states - 36217ms
+            Dequitri[i][j1][j2][k][(n+1)]=@1:341181 states - 84646ms
+             (Dequitri[i][j1][j2][k][n]=@1&Dequitri[i][j1][j2][k][(n+1)]=@1):330428 states - 16240ms
+              ((((Dequitri[i][j1][j2][k][n]=@-2&Dequitri[i][j1][j2][k][(n+1)]=@-2)|(Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@-1))|(Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@0))|(Dequitri[i][j1][j2][k][n]=@1&Dequitri[i][j1][j2][k][(n+1)]=@1)):265382 states - 100553ms
+               Dequitri[i][j1][j2][k][n]=@2:86743 states - 14923ms
+                Dequitri[i][j1][j2][k][(n+1)]=@2:91287 states - 22759ms
+                 (Dequitri[i][j1][j2][k][n]=@2&Dequitri[i][j1][j2][k][(n+1)]=@2):86743 states - 2349ms
+                  (((((Dequitri[i][j1][j2][k][n]=@-2&Dequitri[i][j1][j2][k][(n+1)]=@-2)|(Dequitri[i][j1][j2][k][n]=@-1&Dequitri[i][j1][j2][k][(n+1)]=@-1))|(Dequitri[i][j1][j2][k][n]=@0&Dequitri[i][j1][j2][k][(n+1)]=@0))|(Dequitri[i][j1][j2][k][n]=@1&Dequitri[i][j1][j2][k][(n+1)]=@1))|(Dequitri[i][j1][j2][k][n]=@2&Dequitri[i][j1][j2][k][(n+1)]=@2)):113939 states - 36521ms
+Total computation time: 1038281ms.
+eval nxt "?msd_tri Ai,j1,j2,k,n $constant(i,j1,j2,k,n) | $increase(i,j1,j2,k,n) | $decrease(i,j1,j2,k,n)":
+(constant(i,j1,j2,k,n))|increase(i,j1,j2,k,n))):63609 states - 15122ms
+ ((constant(i,j1,j2,k,n))|increase(i,j1,j2,k,n)))|decrease(i,j1,j2,k,n))):243 states - 2895ms
+  (A i , j1 , j2 , k , n ((constant(i,j1,j2,k,n))|increase(i,j1,j2,k,n)))|decrease(i,j1,j2,k,n)))):1 states - 20ms
+Total computation time: 23025ms.
+____
+TRUE
+eval nxtXX "?msd_tri Ai,j1,j2,k,n ($feq_tri(i,j1+n+1,k) <=> $feq_tri(i,j2+n+1,k))  <=> $constant(i,j1,j2,k,n)":
+(feq_tri(i,((j1+n)+1),k))<=>feq_tri(i,((j2+n)+1),k))):113939 states - 24992ms
+ ((feq_tri(i,((j1+n)+1),k))<=>feq_tri(i,((j2+n)+1),k)))<=>constant(i,j1,j2,k,n))):243 states - 5389ms
+  (A i , j1 , j2 , k , n ((feq_tri(i,((j1+n)+1),k))<=>feq_tri(i,((j2+n)+1),k)))<=>constant(i,j1,j2,k,n)))):1 states - 19ms
+Total computation time: 33667ms.
+____
+TRUE
+eval nxtTF "?msd_tri Ai,j1,j2,k,n ($feq_tri(i,j1+n+1,k) & ~$feq_tri(i,j2+n+1,k)) <=> $increase(i,j1,j2,k,n)":
+~feq_tri(i,((j2+n)+1),k)):2769 states - 101ms
+ (feq_tri(i,((j1+n)+1),k))&~feq_tri(i,((j2+n)+1),k))):55119 states - 1819ms
+  ((feq_tri(i,((j1+n)+1),k))&~feq_tri(i,((j2+n)+1),k)))<=>increase(i,j1,j2,k,n))):243 states - 2475ms
+   (A i , j1 , j2 , k , n ((feq_tri(i,((j1+n)+1),k))&~feq_tri(i,((j2+n)+1),k)))<=>increase(i,j1,j2,k,n)))):1 states - 20ms
+Total computation time: 5482ms.
+____
+TRUE
+eval nxtFT "?msd_tri Ai,j1,j2,k,n (~$feq_tri(i,j1+n+1,k) & $feq_tri(i,j2+n+1,k)) <=> $decrease(i,j1,j2,k,n)":
+~feq_tri(i,((j1+n)+1),k)):2769 states - 104ms
+ (~feq_tri(i,((j1+n)+1),k))&feq_tri(i,((j2+n)+1),k))):55119 states - 1858ms
+  ((~feq_tri(i,((j1+n)+1),k))&feq_tri(i,((j2+n)+1),k)))<=>decrease(i,j1,j2,k,n))):243 states - 2490ms
+   (A i , j1 , j2 , k , n ((~feq_tri(i,((j1+n)+1),k))&feq_tri(i,((j2+n)+1),k)))<=>decrease(i,j1,j2,k,n)))):1 states - 20ms
+Total computation time: 5465ms.
+____
+TRUE
+
+[Walnut]$ 

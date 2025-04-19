@@ -1,0 +1,39 @@
+#!/bin/sh
+MAXMEM=64g
+ORIGDIR=$(pwd)
+BASEDIR=$(dirname $(realpath "$0"))
+TMPDIR=$(mktemp -d)
+INITTAR=""
+if [ "$1" == "--init" ]; then
+  INITTAR="$2"
+  shift 2
+  case "$INITTAR" in
+    /*) ;;
+    *) INITTAR="$ORIGDIR/$INITTAR" ;;
+  esac
+fi
+QMD="$1"
+FILE=$(basename "$QMD")
+ZIPDST=$(basename "$QMD" .qmd).zip
+QUARTO="uvx --python 3.12 --with ipython<9.0.0,walnut_kernel,pydot,jupyter-cache --from quarto-cli quarto"
+WALNUT="$BASEDIR"/aux/walnut-6.2.jar
+cp "$@" "$TMPDIR/"
+echo "Going to $TMPDIR"
+cd "$TMPDIR"
+mkdir -p Walnut/{Result,Custom\ Bases,Automata\ Library,Word\ Automata\ Library}
+mkdir out
+if [ -n "$INITTAR" ]; then
+(cd Walnut; tar xvf $INITTAR)
+fi
+export WALNUT_MEM=$MAXMEM
+export WALNUT_HOME=$TMPDIR/Walnut
+export WALNUT_JAR="$WALNUT"
+$QUARTO add --no-prompt --quiet "$BASEDIR"/aux/downloadthis.zip
+cp "$BASEDIR"/aux/walnut.xml .
+$QUARTO render $FILE --output-dir out --execute --cache --execute-daemon 1000000
+cd out
+zip "$ORIGDIR/$ZIPDST" *
+echo "Cleaning"
+cd $TMPDIR
+cd ..
+rm -rf $TMPDIR

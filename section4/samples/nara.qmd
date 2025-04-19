@@ -1,0 +1,340 @@
+---
+title: k-Abelian Complexity of Narayana sequence from 1 to 3
+date: '2025-04-14'
+format:
+  html:
+    code-fold: false
+    embed-resources: true
+    toc: true
+    toc-location: left
+    number-sections: true
+    syntax-definitions: 
+        - walnut.xml
+  ipynb: default 
+execute:
+  cache: true
+  keep-ipynb: true
+  allow_errors: true
+jupyter: walnut
+---
+
+## Initial Numeration System Setup
+
+First we define the subsitution, its numeration system and its fixpoint sequence.
+
+```{walnut}
+%%python
+from licofage.kit import *
+import os
+setparams(True, True, os.environ["WALNUT_HOME"])
+
+s = subst('01/2/0')
+ns = address(s, "nara")
+ns.gen_ns()
+ns.gen_word_automaton()
+```
+
+Then we setup a factor comparison predicate in Walnut and a first factor occurence predicate.
+
+```{walnut}
+def cut "?msd_nara i<=u & j<=v & u+j=v+i & u<n+i & v<n+j":
+def feq_nara "?msd_nara ~(Eu,v $cut(i,j,n,u,v) & Nara[u]!=Nara[v])":
+eval comp_nara n "?msd_nara Aj $feq_nara(i,j,n) => i<=j":
+```
+
+
+From there we can define the boundary condition `bordercond`, as explained in Fici-Puzynina-2023 section 8.1.
+
+```{walnut}
+def bordercond "?msd_nara (k<=n => $feq_nara(i,j,k-1)) & (n<k => $feq_nara(i,j,n))":
+```
+
+## 1-abelian complexity
+
+Define the 1-block map of nara and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s1 = s
+ns1 = ns
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Nara.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns1.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s1, ns1.ns, **w)
+    (parikh - ns1).gen_dfa(f"narab1p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 1-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_nara Ex,y $narab1p0(i,x) & $narab1p0(i+n,y) & z+x=y":
+def fac1 "?msd_nara Ex,y $narab1p1(i,x) & $narab1p1(i+n,y) & z+x=y":
+def fac2 "?msd_nara Ex,y $narab1p2(i,x) & $narab1p2(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_nara Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_nara Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_nara Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_nara Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_nara Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_nara Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_nara1 "?msd_nara (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z))":
+```
+
+```{walnut}
+eval comp_nara1 n "?msd_nara Aj $abeq_nara1(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_nara1 msd_nara Comp_nara1
+```
+
+## 2-abelian complexity
+
+Define the 2-block map of nara and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s2 = block(s, 2)
+ns2 = address(s2, "narab2")
+ns2.gen_ns()
+(ns-ns2).gen_dfa("conv_nara_narab2")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond2 "?msd_narab2 (?msd_nara Eii,jj,kk,nn 
+($conv_nara_narab2(?msd_nara ii, ?msd_narab2 i) & 
+$conv_nara_narab2(?msd_nara jj, ?msd_narab2 j) & 
+$conv_nara_narab2(?msd_nara kk, ?msd_narab2 k) & 
+$conv_nara_narab2(?msd_nara nn, ?msd_narab2 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Narab2.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns2.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s2, ns2.ns, **w)
+    (parikh - ns2).gen_dfa(f"narab2p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 2-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_narab2 Ex,y $narab2p0(i,x) & $narab2p0(i+n,y) & z+x=y":
+def fac1 "?msd_narab2 Ex,y $narab2p1(i,x) & $narab2p1(i+n,y) & z+x=y":
+def fac2 "?msd_narab2 Ex,y $narab2p2(i,x) & $narab2p2(i+n,y) & z+x=y":
+def fac3 "?msd_narab2 Ex,y $narab2p3(i,x) & $narab2p3(i+n,y) & z+x=y":
+def fac4 "?msd_narab2 Ex,y $narab2p4(i,x) & $narab2p4(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_narab2 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_narab2 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_narab2 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_narab2 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_narab2 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_narab2 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_narab2 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_narab2 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_narab2 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_narab2 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_narab2 "?msd_narab2 $bordercond2(i,j,2,n+1) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z))":
+def abeq_nara2 "?msd_nara (n<1 & $feq_nara(i,j,n)) | (n>=1 & (?msd_narab2 Eii,jj,nn ($conv_nara_narab2(?msd_nara i, ?msd_narab2 ii) & $conv_nara_narab2(?msd_nara j, ?msd_narab2 jj) & $conv_nara_narab2(?msd_nara n, ?msd_narab2 nn) & $abeq_narab2(ii,jj,nn-1))))":
+```
+
+```{walnut}
+eval comp_nara2 n "?msd_nara Aj $abeq_nara2(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_nara2 msd_nara Comp_nara2
+```
+
+## 3-abelian complexity
+
+Define the 3-block map of nara and construct the conversion predicate between both numeration systems.
+
+```{walnut}
+%%python
+s3 = block(s, 3)
+ns3 = address(s3, "narab3")
+ns3.gen_ns()
+(ns-ns3).gen_dfa("conv_nara_narab3")
+```
+
+Translate the border condition predicate into the current numeration system.
+
+```{walnut}
+def bordercond3 "?msd_narab3 (?msd_nara Eii,jj,kk,nn 
+($conv_nara_narab3(?msd_nara ii, ?msd_narab3 i) & 
+$conv_nara_narab3(?msd_nara jj, ?msd_narab3 j) & 
+$conv_nara_narab3(?msd_nara kk, ?msd_narab3 k) & 
+$conv_nara_narab3(?msd_nara nn, ?msd_narab3 n) & 
+$bordercond(ii,jj,kk,nn)))":
+```
+
+### Compute Parikh vectors
+
+First we compute the Parikh vectors for the prefixes of Narab3.
+
+```{walnut}
+%%python
+for (i,a) in enumerate(ns3.alpha):
+    w = {'_': 0}
+    w[a] = 1
+    parikh = address(s3, ns3.ns, **w)
+    (parikh - ns3).gen_dfa(f"narab3p{i}")
+```
+
+### Compute the complexity function
+
+Use Walnut to generate a linear representation for the 3-abelian complexity.
+
+```{walnut}
+def fac0 "?msd_narab3 Ex,y $narab3p0(i,x) & $narab3p0(i+n,y) & z+x=y":
+def fac1 "?msd_narab3 Ex,y $narab3p1(i,x) & $narab3p1(i+n,y) & z+x=y":
+def fac2 "?msd_narab3 Ex,y $narab3p2(i,x) & $narab3p2(i+n,y) & z+x=y":
+def fac3 "?msd_narab3 Ex,y $narab3p3(i,x) & $narab3p3(i+n,y) & z+x=y":
+def fac4 "?msd_narab3 Ex,y $narab3p4(i,x) & $narab3p4(i+n,y) & z+x=y":
+def fac5 "?msd_narab3 Ex,y $narab3p5(i,x) & $narab3p5(i+n,y) & z+x=y":
+def fac6 "?msd_narab3 Ex,y $narab3p6(i,x) & $narab3p6(i+n,y) & z+x=y":
+```
+
+```{walnut}
+def min0 "?msd_narab3 Ei $fac0(i,n,x) & Aj,y $fac0(j,n,y) => y>=x":
+def min1 "?msd_narab3 Ei $fac1(i,n,x) & Aj,y $fac1(j,n,y) => y>=x":
+def min2 "?msd_narab3 Ei $fac2(i,n,x) & Aj,y $fac2(j,n,y) => y>=x":
+def min3 "?msd_narab3 Ei $fac3(i,n,x) & Aj,y $fac3(j,n,y) => y>=x":
+def min4 "?msd_narab3 Ei $fac4(i,n,x) & Aj,y $fac4(j,n,y) => y>=x":
+def min5 "?msd_narab3 Ei $fac5(i,n,x) & Aj,y $fac5(j,n,y) => y>=x":
+def min6 "?msd_narab3 Ei $fac6(i,n,x) & Aj,y $fac6(j,n,y) => y>=x":
+```
+
+```{walnut}
+def diff0 "?msd_narab3 Ex,y $min0(n,x) & $fac0(i,n,y) & z+x=y":
+def diff1 "?msd_narab3 Ex,y $min1(n,x) & $fac1(i,n,y) & z+x=y":
+def diff2 "?msd_narab3 Ex,y $min2(n,x) & $fac2(i,n,y) & z+x=y":
+def diff3 "?msd_narab3 Ex,y $min3(n,x) & $fac3(i,n,y) & z+x=y":
+def diff4 "?msd_narab3 Ex,y $min4(n,x) & $fac4(i,n,y) & z+x=y":
+def diff5 "?msd_narab3 Ex,y $min5(n,x) & $fac5(i,n,y) & z+x=y":
+def diff6 "?msd_narab3 Ex,y $min6(n,x) & $fac6(i,n,y) & z+x=y":
+```
+
+```{walnut}
+def abeq_narab3 "?msd_narab3 $bordercond3(i,j,3,n+2) & (Ez $diff0(i,n,z) &  $diff0(j,n,z)) & (Ez $diff1(i,n,z) &  $diff1(j,n,z)) & (Ez $diff2(i,n,z) &  $diff2(j,n,z)) & (Ez $diff3(i,n,z) &  $diff3(j,n,z)) & (Ez $diff4(i,n,z) &  $diff4(j,n,z)) & (Ez $diff5(i,n,z) &  $diff5(j,n,z)) & (Ez $diff6(i,n,z) &  $diff6(j,n,z))":
+def abeq_nara3 "?msd_nara (n<2 & $feq_nara(i,j,n)) | (n>=2 & (?msd_narab3 Eii,jj,nn ($conv_nara_narab3(?msd_nara i, ?msd_narab3 ii) & $conv_nara_narab3(?msd_nara j, ?msd_narab3 jj) & $conv_nara_narab3(?msd_nara n, ?msd_narab3 nn) & $abeq_narab3(ii,jj,nn-2))))":
+```
+
+```{walnut}
+eval comp_nara3 n "?msd_nara Aj $abeq_nara3(i,j,n) => i<=j":
+```
+
+
+### Apply the semigroup trick
+
+```{walnut}
+%SGT comp_nara3 msd_nara Comp_nara3
+```
+## Check it out!
+
+
+```{walnut}
+%%python
+from itertools import product
+from ratser.walimp import from_walnut
+
+def valid(a, h, u):
+    cur=a
+    for c in u:
+        v = h[cur]
+        if c >= len(v):
+            return False
+        cur = v[c]
+    return True
+
+def enumrepr(a, h, k):
+    alpha=list(range(max(map(len,h.values()))))
+    for u in product(alpha, repeat=k):
+        if valid(a, h, u):
+            yield ''.join(map(str,u))
+
+l = []
+lbl = []
+for k in range(1,4):
+    lbl.append(str(k))
+    with open(P(os.environ["WALNUT_HOME"]) / P(f"Result/comp_nara{k}.mpl")) as f:
+            ser = from_walnut(f)
+            l.append(ser)
+
+(a,h)=s.subst()
+print(f"{'n':>4}", *[f"{x+'-ab(nara)':>15}" for x in lbl])
+print('-'*(4+16*len(lbl)))
+for (i, u) in enumerate(enumrepr(a, h, 8)):
+    print(f"{i:4}", *[ f"{int(s.value(u)):15}" for s in l ])
+```
+
+## Let's wrap it up!
+
+```{walnut}
+%%shell
+cd $WALNUT_HOME
+cat << EOF | tr '\n' '\0' | tar cvzf /tmp/abelian.tar.gz --null -T -
+Custom Bases/msd_nara.txt
+Custom Bases/msd_nara_addition.txt
+Word Automata Library/Nara.txt
+Automata Library/feq_nara.txt
+Result/comp_nara.mpl
+Word Automata Library/Comp_nara1.txt
+Result/comp_nara1.mpl
+Automata Library/abeq_nara1.txt
+Word Automata Library/Comp_nara2.txt
+Result/comp_nara2.mpl
+Automata Library/abeq_nara2.txt
+Word Automata Library/Comp_nara3.txt
+Result/comp_nara3.mpl
+Automata Library/abeq_nara3.txt
+EOF
+```
+
+
+ {{< downloadthis /tmp/abelian.tar.gz dname="abelian.tar" >}}
+

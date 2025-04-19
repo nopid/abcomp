@@ -1,0 +1,52 @@
+Welcome to Walnut! Type "help;" to see all available commands.
+
+[Walnut]$ def samefib "?msd_fib Dequifib[i][j1][j2][k][n] = @0":
+Dequifib[i][j1][j2][k][n]=@0:13405 states - 1109ms
+Total computation time: 1118ms.
+def abeqexfib "?msd_fib Ai $samefib(i,j1,j2,k,n)":
+(A i samefib(i,j1,j2,k,n))):282 states - 5103ms
+Total computation time: 5517ms.
+def abeqfib "?msd_fib (n<k & $feq_fib(i,j,n)) | (n>=k & $feq_fib(i,j,k-1) & $abeqexfib(i,j,k,n-k))":
+n<k:6 states - 0ms
+ (n<k&feq_fib(i,j,n))):34 states - 1ms
+  n>=k:6 states - 0ms
+computed ~:1 states - 8ms
+computed ~:2 states - 1ms
+   (n>=k&feq_fib(i,j,(k-1)))):34 states - 1ms
+    ((n>=k&feq_fib(i,j,(k-1))))&abeqexfib(i,j,k,(n-k)))):166 states - 4ms
+     ((n<k&feq_fib(i,j,n)))|((n>=k&feq_fib(i,j,(k-1))))&abeqexfib(i,j,k,(n-k))))):167 states - 10ms
+Total computation time: 44ms.
+def samepell "?msd_pell Dequipell[i][j1][j2][k][n] = @0":
+Dequipell[i][j1][j2][k][n]=@0:15808 states - 12573ms
+Total computation time: 12573ms.
+def abeqexpell "?msd_pell Ai $samepell(i,j1,j2,k,n)":
+(A i samepell(i,j1,j2,k,n))):307 states - 42646ms
+Total computation time: 47197ms.
+def abeqpell "?msd_pell (n<k & $feq_pell(i,j,n)) | (n>=k & $feq_pell(i,j,k-1) & $abeqexpell(i,j,k,n-k))":
+n<k:6 states - 0ms
+ (n<k&feq_pell(i,j,n))):34 states - 0ms
+  n>=k:6 states - 0ms
+computed ~:1 states - 0ms
+computed ~:2 states - 1ms
+   (n>=k&feq_pell(i,j,(k-1)))):34 states - 1ms
+    ((n>=k&feq_pell(i,j,(k-1))))&abeqexpell(i,j,k,(n-k)))):161 states - 12ms
+     ((n<k&feq_pell(i,j,n)))|((n>=k&feq_pell(i,j,(k-1))))&abeqexpell(i,j,k,(n-k))))):162 states - 43ms
+Total computation time: 125ms.
+def sametri "?msd_tri Dequitri[i][j1][j2][k][n] = @0":
+Dequitri[i][j1][j2][k][n]=@0:487964 states - 75609ms
+Total computation time: 75610ms.
+def abeqextri "?msd_tri Ai $sametri(i,j1,j2,k,n)":
+(A i sametri(i,j1,j2,k,n))):5314 states - 2170764ms
+Total computation time: 2203310ms.
+def abeqtri "?msd_tri (n<k & $feq_tri(i,j,n)) | (n>=k & $feq_tri(i,j,k-1) & $abeqextri(i,j,k,n-k))":
+n<k:12 states - 0ms
+ (n<k&feq_tri(i,j,n))):106 states - 1ms
+  n>=k:12 states - 0ms
+computed ~:1 states - 1ms
+computed ~:2 states - 0ms
+   (n>=k&feq_tri(i,j,(k-1)))):106 states - 0ms
+    ((n>=k&feq_tri(i,j,(k-1))))&abeqextri(i,j,k,(n-k)))):4869 states - 72ms
+     ((n<k&feq_tri(i,j,n)))|((n>=k&feq_tri(i,j,(k-1))))&abeqextri(i,j,k,(n-k))))):4879 states - 259ms
+Total computation time: 814ms.
+
+[Walnut]$ 

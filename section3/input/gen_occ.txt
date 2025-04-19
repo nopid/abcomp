@@ -1,0 +1,9 @@
+def occ_fib "?msd_fib j1<=u & u<=j1+n & $feq_fib(i,u,k) & j2=j2":
+def occ_pell "?msd_pell j1<=u & u<=j1+n & $feq_pell(i,u,k) & j2=j2":
+def occ_tri "?msd_tri j1<=u & u<=j1+n & $feq_tri(i,u,k) & j2=j2":
+def occ_twi "?msd_twi j1<=u & u<=j1+n & $feq_twi(i,u,k) & j2=j2":
+def occ_pof "?msd_pof j1<=u & u<=j1+n & $feq_pof(i,u,k) & j2=j2":
+def occ_slow "?msd_slow j1<=u & u<=j1+n & $feq_slow(i,u,k) & j2=j2":
+def occ_sasp "?msd_sasp j1<=u & u<=j1+n & $feq_sasp(i,u,k) & j2=j2":
+def occ_cami "?msd_cami j1<=u & u<=j1+n & $feq_cami(i,u,k) & j2=j2":
+def occ_bece "?msd_bece j1<=u & u<=j1+n & $feq_bece(i,u,k) & j2=j2":

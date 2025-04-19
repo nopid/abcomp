@@ -1,0 +1,60 @@
+Welcome to Walnut! Type "help;" to see all available commands.
+
+[Walnut]$ def occ_fib "?msd_fib j1<=u & u<=j1+n & $feq_fib(i,u,k) & j2=j2":
+j1<=u:6 states - 8ms
+ u<=(j1+n):29 states - 5ms
+  (j1<=u&u<=(j1+n)):35 states - 2ms
+   ((j1<=u&u<=(j1+n))&feq_fib(i,u,k))):198 states - 10ms
+    j2=j2:2 states - 0ms
+     (((j1<=u&u<=(j1+n))&feq_fib(i,u,k)))&j2=j2):396 states - 25ms
+Total computation time: 59ms.
+def occ_pell "?msd_pell j1<=u & u<=j1+n & $feq_pell(i,u,k) & j2=j2":
+j1<=u:6 states - 1ms
+ u<=(j1+n):29 states - 10ms
+  (j1<=u&u<=(j1+n)):35 states - 2ms
+   ((j1<=u&u<=(j1+n))&feq_pell(i,u,k))):196 states - 31ms
+    j2=j2:2 states - 0ms
+     (((j1<=u&u<=(j1+n))&feq_pell(i,u,k)))&j2=j2):392 states - 64ms
+Total computation time: 109ms.
+def occ_tri "?msd_tri j1<=u & u<=j1+n & $feq_tri(i,u,k) & j2=j2":
+j1<=u:12 states - 0ms
+ u<=(j1+n):228 states - 18ms
+  (j1<=u&u<=(j1+n)):240 states - 3ms
+   ((j1<=u&u<=(j1+n))&feq_tri(i,u,k))):2198 states - 51ms
+    j2=j2:3 states - 0ms
+     (((j1<=u&u<=(j1+n))&feq_tri(i,u,k)))&j2=j2):6594 states - 215ms
+Total computation time: 288ms.
+def occ_twi "?msd_twi j1<=u & u<=j1+n & $feq_twi(i,u,k) & j2=j2":
+j1<=u:12 states - 0ms
+ u<=(j1+n):539 states - 40ms
+  (j1<=u&u<=(j1+n)):551 states - 4ms
+   ((j1<=u&u<=(j1+n))&feq_twi(i,u,k))):14306 states - 225ms
+    j2=j2:3 states - 0ms
+     (((j1<=u&u<=(j1+n))&feq_twi(i,u,k)))&j2=j2):42916 states - 956ms
+Total computation time: 1228ms.
+def occ_pof "?msd_pof j1<=u & u<=j1+n & $feq_pof(i,u,k) & j2=j2":
+j1<=u:12 states - 0ms
+ u<=(j1+n):231 states - 27ms
+  (j1<=u&u<=(j1+n)):243 states - 4ms
+   ((j1<=u&u<=(j1+n))&feq_pof(i,u,k))):6904 states - 395ms
+    j2=j2:3 states - 0ms
+     (((j1<=u&u<=(j1+n))&feq_pof(i,u,k)))&j2=j2):20710 states - 3674ms
+Total computation time: 4101ms.
+def occ_slow "?msd_slow j1<=u & u<=j1+n & $feq_slow(i,u,k) & j2=j2":
+j1<=u:12 states - 0ms
+ u<=(j1+n):365 states - 15ms
+  (j1<=u&u<=(j1+n)):377 states - 2ms
+   ((j1<=u&u<=(j1+n))&feq_slow(i,u,k))):7506 states - 79ms
+    j2=j2:3 states - 0ms
+     (((j1<=u&u<=(j1+n))&feq_slow(i,u,k)))&j2=j2):22518 states - 331ms
+Total computation time: 430ms.
+def occ_sasp "?msd_sasp j1<=u & u<=j1+n & $feq_sasp(i,u,k) & j2=j2":
+j1<=u:6 states - 1ms
+ u<=(j1+n):68 states - 129ms
+  (j1<=u&u<=(j1+n)):74 states - 13ms
+   ((j1<=u&u<=(j1+n))&feq_sasp(i,u,k))):2047 states - 3474ms
+    j2=j2:2 states - 0ms
+     (((j1<=u&u<=(j1+n))&feq_sasp(i,u,k)))&j2=j2):4093 states - 43123ms
+Total computation time: 46748ms.
+
+[Walnut]$ 
