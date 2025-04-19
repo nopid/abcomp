@@ -15,16 +15,16 @@ The notebooks are in the notebooks/ directory.
 
 Input and output files are provided for the following sequences, under the following names:
  
- - **fib** The Fibonacci sequence, Sturmian sequence, fixpoint of $0\mapsto 01,\; 1\mapsto 0$;
- - **pell** The Pell sequence, Sturmian sequence, fixpoint of $0\mapsto 001,\; 1\mapsto 0$;
- - **tri** The Tribonacci sequence, epiSturmian sequence, fixpoint of  $0\mapsto 01,\; 1\mapsto 02,\; 2\mapsto 0$;
- - **nara** The Narayana sequence, fixpoint of  $0\mapsto 01,\; 1\mapsto 2,\; 2\mapsto 0$;
- - **blop** fixpoint of  $0\mapsto 011,\; 1\mapsto 01$;
- - **muller** fixpoint of $0\mapsto 0001011,\; 1\mapsto 001011$;
- - **pof** fixpoint of $0\mapsto 001,\; 1\mapsto 201,\; 2\mapsto 0$;
- - **bpof** fixpoint of $0\mapsto 001,\; 1\mapsto 02,\; 2\mapsto 002$;
- - **spiral** fixpoint of $0\mapsto 001,\; 1\mapsto 2,\; 2\mapsto 02$;
- - **twi** The Twisted Tribonacci sequence, fixpoint of  $0\mapsto 01,\; 1\mapsto 20,\; 2\mapsto 0$;
+ - **fib** The Fibonacci sequence, Sturmian sequence, fixpoint of $0\mapsto 01, 1\mapsto 0$;
+ - **pell** The Pell sequence, Sturmian sequence, fixpoint of $0\mapsto 001, 1\mapsto 0$;
+ - **tri** The Tribonacci sequence, epiSturmian sequence, fixpoint of  $0\mapsto 01, 1\mapsto 02, 2\mapsto 0$;
+ - **nara** The Narayana sequence, fixpoint of  $0\mapsto 01, 1\mapsto 2, 2\mapsto 0$;
+ - **blop** fixpoint of  $0\mapsto 011, 1\mapsto 01$;
+ - **muller** fixpoint of $0\mapsto 0001011, 1\mapsto 001011$;
+ - **pof** fixpoint of $0\mapsto 001, 1\mapsto 201, 2\mapsto 0$;
+ - **bpof** fixpoint of $0\mapsto 001, 1\mapsto 02, 2\mapsto 002$;
+ - **spiral** fixpoint of $0\mapsto 001, 1\mapsto 2, 2\mapsto 02$;
+ - **twi** The Twisted Tribonacci sequence, fixpoint of  $0\mapsto 01, 1\mapsto 20, 2\mapsto 0$;
 
 
 ## Numeration systems
