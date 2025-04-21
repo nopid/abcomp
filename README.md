@@ -1,6 +1,6 @@
 # Generalized Abelian Complexity
 
-This is the companion git repository for the paper *Effective Computation of Generalized Abelian Complexity for Pisot Type Substitutive Sequences*. It contains source code and supplementary material produced to prepare the paper. Please cite the above paper when reporting, reproducing or extending the results.
+This is the companion git repository for the paper [Effective Computation of Generalized Abelian Complexity for Pisot Type Substitutive Sequences](http://arxiv.org/abs/2504.13584). It contains source code and supplementary material produced to prepare the paper. Please cite the above paper when reporting, reproducing or extending the results.
 
 
 ## Direct access with Binder
