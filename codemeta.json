@@ -1,0 +1,21 @@
+{
+    "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+    "type": "SoftwareSourceCode",
+    "codeRepository": "https://github.com/nopid/abcomp/",
+    "dateCreated": "2025-04-18",
+    "datePublished": "2025-04-18",
+    "description": "This is the companion git repository for the paper [Effective Computation of Generalized Abelian Complexity for Pisot Type Substitutive Sequences](http://arxiv.org/abs/2504.13584). It contains source code and supplementary material produced to prepare the paper. Please cite the above paper when reporting, reproducing or extending the results.",
+    "license": "https://spdx.org/licenses/GPL-3.0",
+    "name": "Generalized Abelian Complexity",
+    "operatingSystem": [
+        "Linux",
+        "macOS"
+    ],
+    "programmingLanguage": [
+        "C++",
+        "Python",
+        "Walnut"
+    ],
+    "softwareRequirements": "https://github.com/Walnut-Theorem-Prover/Walnut",
+    "issueTracker": "https://github.com/nopid/abcomp/issues"
+}
